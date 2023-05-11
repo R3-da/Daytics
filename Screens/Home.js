@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     buttonText: {
-        color:'wh ite',
+        color:'white',
         fontSize:20
     },
     todoIcon: {
