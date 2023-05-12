@@ -1,7 +1,7 @@
 import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
 import React, {useState} from 'react';
+import { firebase } from '../config';
 import { useNavigation } from '@react-navigation/native';
-
 
 const Detail = ({route}) => {
     const todoRef = firebase.firestore().collection('todos');
@@ -23,16 +23,15 @@ const Detail = ({route}) => {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <TextInput
                 style={styles.textField}
                 onChangeText={onChangeHeadingText}
                 value={textHeading}
-                placeholder='Update Todo'
             />
             <Pressable
-            style={styles.buttonUpdate}
-            onPress={() => {updateTodo}}
+                style={styles.buttonUpdate}
+                onPress={() => {updateTodo()}}
             >
                 <Text>UPDATE TODO</Text>
             </Pressable>

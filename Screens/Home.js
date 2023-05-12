@@ -71,7 +71,7 @@ const Home = () => {
         <View style={{flex:1}}>
             <View style={styles.formContainer}>
                 <TextInput
-                    style={style.input}
+                    style={styles.input}
                     placeholder='Add A New Todo'
                     placeholderTextColor='#aaaaaa'
                     onChangeText={(heading) => setAddData(heading)}
@@ -90,7 +90,7 @@ const Home = () => {
                     <View>
                         <Pressable
                             style={styles.container}
-                            onPress={() => navigation.navigate('Detail', (item))}
+                            onPress={() => navigation.navigate('Detail', {item})}
                         >
                             <FontAwesome 
                                 name='trash-o'
@@ -121,8 +121,8 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius : 15,
         margin: 5,
-        marginHorizontaI : 10,
-        flexDirection: ' row' ,
+        marginHorizontal : 10,
+        flexDirection: 'row' ,
         alignItems: 'center'
     },
     innerContainer:{
