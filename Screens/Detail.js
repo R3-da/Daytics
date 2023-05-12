@@ -8,6 +8,8 @@ const Detail = ({route}) => {
     const [textHeading, onChangeHeadingText] = useState(route.params.item.name);
     const navigation = useNavigation();
 
+    console.log('Component rendered!');
+    
     const updateTodo = () => {
         if (textHeading &&  textHeading.length > 0) {
             todoRef
@@ -28,6 +30,7 @@ const Detail = ({route}) => {
                 style={styles.textField}
                 onChangeText={onChangeHeadingText}
                 value={textHeading}
+
             />
             <Pressable
                 style={styles.buttonUpdate}
