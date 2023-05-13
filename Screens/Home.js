@@ -37,7 +37,7 @@ const Home = () => {
             .delete()
             .then(() => {
                 // show a successful alert
-                alert('Delete Successfully')
+                //alert('Delete Successfully')
             })
             .catch(error => {
                 alert(error);
