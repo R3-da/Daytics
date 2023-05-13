@@ -5,11 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 
 const Detail = ({route}) => {
     const todoRef = firebase.firestore().collection('todos');
-    const [textHeading, onChangeHeadingText] = useState(route.params.item.name);
+    const [textHeading, onChangeHeadingText] = useState(route.params.item.heading);
     const navigation = useNavigation();
 
-    console.log('Component rendered!');
-    
+    console.log(textHeading);
+
     const updateTodo = () => {
         if (textHeading &&  textHeading.length > 0) {
             todoRef
