@@ -1,13 +1,14 @@
-import { View, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Keyboard, Pressable } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Keyboard, Pressable, RefreshControl } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import { firebase } from '../config';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
     const [todos, setTodos] = useState([]);
     const todoRef = firebase.firestore().collection('todos');
     const [addData, setAddData] = useState('');
+    const [refreshing, setRefreshing] = useState(false); // added
     const navigation = useNavigation();
 
     //fetch or read the data from firestore
@@ -25,6 +26,7 @@ const Home = () => {
                     })
                 })
                 setTodos(todos)
+                setRefreshing(false);
             }
         )
     }, [])
@@ -67,9 +69,30 @@ const Home = () => {
         }
     }
 
+    // refresh the data in the flatlist
+    const handleRefresh = () => {
+        setRefreshing(true);
+        todoRef
+        .orderBy('createdAt', 'desc')
+        .onSnapshot(
+            querySnapshot => {
+                const todos = []
+                querySnapshot.forEach((doc) => {
+                    const {heading} = doc.data()
+                    todos.push({
+                        id: doc.id,
+                        heading,
+                    })
+                })
+                setTodos(todos)
+                setRefreshing(false);
+            }
+        )
+    }
+
     return (
         <View style={{flex:1}}>
-            <View style={styles.formContainer}>
+            <View style={styles.formContainer}> 
                 <TextInput
                     style={styles.input}
                     placeholder='Add A New Todo'
@@ -108,6 +131,12 @@ const Home = () => {
                         </Pressable>
                     </View>
                 )}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={false} // state variable to keep track of refresh status
+                        onRefresh={() => console.log('onRefresh')} // function to handle refresh action
+                    />
+                }
             />
         </View>
     )
@@ -140,7 +169,7 @@ const styles = StyleSheet.create({
         height:80,
         marginLeft:10,
         marginRight:10,
-        marginTop:100,
+        marginTop:50,
     },
     input:{
         height: 48,
