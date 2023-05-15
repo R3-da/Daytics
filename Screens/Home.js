@@ -1,16 +1,18 @@
-import { View, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Keyboard, Pressable, RefreshControl } from 'react-native';
+import { View, Button, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Keyboard, Pressable, RefreshControl } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import { firebase } from '../config';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
 import {AsyncStorage} from 'react-native';
+import MySnackBar from '../Components/MySnackBar';
 
 const Home = () => {
     const [todos, setTodos] = useState([]);
     const todoRef = firebase.firestore().collection('todos');
     const [addData, setAddData] = useState('');
     const [refreshing, setRefreshing] = useState(false); // added
-    const navigation = useNavigation();    
+    const navigation = useNavigation();
+    const [snackBarVisible, setSnackBarVisible] = useState(false); 
 
     //fetch or read the data from firestore
     useEffect(() => {
@@ -93,6 +95,9 @@ const Home = () => {
     return (
         <View style={{flex:1}}>
             <View style={styles.formContainer}> 
+                <View>
+                    <Button title="Show Snackbar" onPress={() => setSnackBarVisible(true)} />
+                </View>
                 <TextInput
                     style={styles.input}
                     placeholder='Add A New Todo'
@@ -138,6 +143,7 @@ const Home = () => {
                     />
                 }
             />
+            <MySnackBar visible={snackBarVisible} onDismiss={() => setSnackBarVisible(false)} snackBarMessage = {'test'} />
         </View>
     )
 }
