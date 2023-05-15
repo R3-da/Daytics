@@ -13,6 +13,7 @@
     "expo": "~48.0.15",
     "expo-keep-awake": "~12.0.1",
     "expo-status-bar": "~1.4.4",
+    "expo-updates": "~0.16.4",
     "firebase": "^9.21.0",
     "metro-bundler": "^0.22.1",
     "react": "18.2.0",
@@ -24,5 +25,10 @@
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
-  "private": true
+  "private": true,
+  "name": "todoList",
+  "version": "1.0.0",
+  "repository": "https://github.com/R3-da/todoList.git",
+  "author": "haddanreda <haddan.reda.net@gmail.com>",
+  "license": "MIT"
 }
