@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import { firebase } from '../config';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
+import {AsyncStorage} from 'react-native';
 
 const Home = () => {
     const [todos, setTodos] = useState([]);
@@ -10,6 +11,39 @@ const Home = () => {
     const [addData, setAddData] = useState('');
     const [refreshing, setRefreshing] = useState(false); // added
     const navigation = useNavigation();
+
+    // fetch data from the cache or firestore
+    const fetchData = async () => {
+        try {
+          // Check if the data exists in the cache
+          const cachedData = await AsyncStorage.getItem('todos');
+      
+          if (cachedData) {
+            // If data exists in the cache, parse and set it in the state
+            const parsedData = JSON.parse(cachedData);
+            setTodos(parsedData);
+          } else {
+            // If data doesn't exist in the cache, fetch it from Firestore
+            const querySnapshot = await todoRef.orderBy('createdAt', 'desc').get();
+      
+            const todos = querySnapshot.docs.map(doc => ({
+              id: doc.id,
+              heading: doc.data().heading,
+            }));
+      
+            // Store the fetched data in the cache
+            await AsyncStorage.setItem('todos', JSON.stringify(todos));
+      
+            // Set the fetched data in the state
+            setTodos(todos);
+          }
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        } finally {
+          setRefreshing(false);
+        }
+      };
+      
 
     //fetch or read the data from firestore
     useEffect(() => {
