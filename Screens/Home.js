@@ -153,10 +153,9 @@ const Home = () => {
                                 />
                             </TouchableOpacity>
                             <View style={styles.innerContainer}>
-                                <Text style={styles.itemHeading}>
+                                <Text style={styles.itemHeading} numberOfLines={1}>
                                     {item.heading[0].toUpperCase() + item.heading.slice(1)}
                                 </Text>
-
                             </View>
                         </Pressable>
                     </View>
@@ -197,12 +196,13 @@ const styles = StyleSheet.create({
     innerContainer:{
         alignItems:'center',
         flexDirection:'column',
-        marginLeft:15,
+        marginLeft:5,
+        flex:1,
+        alignItems: 'flex-start' // Align the heading to the left
     },
     itemHeading:{
         fontWeight:'bold',
-        fontSize:18,
-        marginRight : 22,
+        fontSize:18
     },
     formContainer:{
         flexDirection:'row',
@@ -235,13 +235,12 @@ const styles = StyleSheet.create({
     deleteButton: {
         height:47,
         borderRadius:20,
-        backgroundColor:'gray',
+        backgroundColor:'transparent',
         width:60,
         alignItems:'center',
         justifyContent:'center'
     },
     deleteIcon: {
-        marginTop: 5,
         fontSize:20
     }
 })
