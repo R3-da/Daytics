@@ -15,7 +15,7 @@ const MySnackBar = ({ visible, onDismiss, snackBarMessage, undoDeleteTodo }) => 
     }}
   >
     <View style={styles.content}>
-      <FontAwesome name="info-circle" color="white" size={20} style={styles.icon} />
+      <FontAwesome name="info-circle" color="white" size={18} style={styles.icon} />
       <Text style={styles.message}>{snackBarMessage}</Text>
     </View>
   </Snackbar>
