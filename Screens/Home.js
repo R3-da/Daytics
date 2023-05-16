@@ -140,21 +140,24 @@ const Home = () => {
                             style={styles.container}
                             onPress={() => navigation.navigate('Detail', {item})}
                         >
-                            <FontAwesome 
-                                name='trash-o'
-                                color='red'
+                            <TouchableOpacity 
+                                style={styles.deleteButton}
                                 onPress={() => {
                                     deleteTodo(item)
                                 }}
-                                style={styles.todoIcon}
-                            />
+                            >
+                                <FontAwesome 
+                                    name='trash-o'
+                                    color='red'
+                                    style={styles.deleteIcon}
+                                />
+                            </TouchableOpacity>
                             <View style={styles.innerContainer}>
                                 <Text style={styles.itemHeading}>
                                     {item.heading[0].toUpperCase() + item.heading.slice(1)}
                                 </Text>
 
                             </View>
-
                         </Pressable>
                     </View>
                 )}
@@ -183,7 +186,8 @@ export default Home
 const styles = StyleSheet.create({
     container:{
         backgroundColor:'#e5e5e5',
-        padding: 15,
+        paddingVertical: 8,
+        paddingHorizontal: 10,
         borderRadius : 15,
         margin: 5,
         marginHorizontal : 10,
@@ -193,7 +197,7 @@ const styles = StyleSheet.create({
     innerContainer:{
         alignItems:'center',
         flexDirection:'column',
-        marginLeft:45,
+        marginLeft:15,
     },
     itemHeading:{
         fontWeight:'bold',
@@ -228,9 +232,16 @@ const styles = StyleSheet.create({
         color:'white',
         fontSize:20
     },
-    todoIcon: {
+    deleteButton: {
+        height:47,
+        borderRadius:20,
+        backgroundColor:'gray',
+        width:60,
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    deleteIcon: {
         marginTop: 5,
-        fontSize:20,
-        marginLeft:14
+        fontSize:20
     }
 })
