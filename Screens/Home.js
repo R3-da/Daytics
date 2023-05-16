@@ -24,10 +24,11 @@ const Home = () => {
             querySnapshot => {
                 const todos = []
                 querySnapshot.forEach((doc) => {
-                    const {heading} = doc.data()
+                    const {heading, createdAt} = doc.data()
                     todos.push({
                         id: doc.id,
                         heading,
+                        createdAt,
                     })
                 })
                 setTodos(todos)
@@ -56,6 +57,7 @@ const Home = () => {
 
     // undo tod
     const undoDeleteTodo = (undoData) => {
+        console.log
         todoRef
             .add(undoData)
             .then(() => {
