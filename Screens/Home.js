@@ -14,7 +14,7 @@ const Home = () => {
     const navigation = useNavigation();
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [snackBarMessage, setSnackBarMessage] = useState('');
-    const [deletedTodo, setDeletedTodo] = useState('')
+    const [undoData, setUndoData] = useState('');
 
     //fetch or read the data from firestore
     useEffect(() => {
@@ -42,13 +42,29 @@ const Home = () => {
             .doc(todos.id)
             .delete()
             .then(() => {
-                setDeletedTodo(todos);
+                console.log(todos.heading); // Console log the heading
+                setUndoData(todos);
                 setSnackBarMessage('Item Deleted');
                 setSnackBarVisible(true)
                 // show a successful alert
                 //alert('Delete Successfully')
             })
             .catch(error => {
+                alert(error);
+            })
+    }
+
+    // undo tod
+    const undoDeleteTodo = (undoData) => {
+        todoRef
+            .add(undoData)
+            .then(() => {
+                console.log(undoData.heading); // Console log the heading
+                setUndoData('');
+                setSnackBarVisible(false);
+                setSnackBarMessage
+            })
+            .catch((error) => {
                 alert(error);
             })
     }
@@ -151,10 +167,10 @@ const Home = () => {
                 visible={snackBarVisible} 
                 onDismiss={() => {
                     setSnackBarVisible(false);
-                    setSnackBarMessage('');
-                    setDeletedTodo('')
+                    setSnackBarMessage('')
                 }} 
                 snackBarMessage = {snackBarMessage}
+                undoDeleteTodo={() => undoDeleteTodo(undoData)}
             />
         </View>
     )

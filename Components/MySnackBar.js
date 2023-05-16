@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Button, Snackbar } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
 
-const MySnackBar = ({ visible, onDismiss, snackBarMessage, addTodo }) => (
+const MySnackBar = ({ visible, onDismiss, snackBarMessage, undoDeleteTodo }) => (
   <Snackbar style={styles.container} visible={visible} onDismiss={onDismiss} duration={3000}>
     <View style={styles.innerContainer}>
       <FontAwesome 
@@ -17,7 +17,7 @@ const MySnackBar = ({ visible, onDismiss, snackBarMessage, addTodo }) => (
         color='white'
         style={styles.undoButton}
         onPress={() => {
-          addTodo;
+          undoDeleteTodo();
         }}
       />
     </View>
