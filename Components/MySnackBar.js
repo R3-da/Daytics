@@ -1,26 +1,56 @@
 import React from 'react';
-import { View, Text,StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Button, Snackbar } from 'react-native-paper';
+import { FontAwesome } from '@expo/vector-icons';
 
-const MySnackBar = ({ visible, onDismiss, snackBarMessage}) => (
+const MySnackBar = ({ visible, onDismiss, snackBarMessage, addTodo }) => (
   <Snackbar style={styles.container} visible={visible} onDismiss={onDismiss} duration={3000}>
-    <Text style={styles.container}>{snackBarMessage}</Text>
-    <Button onPress={onDismiss}>Dismiss</Button>
+    <View style={styles.innerContainer}>
+      <FontAwesome 
+        name='info-circle' 
+        color='white' 
+        style={styles.infoIcon} 
+      />
+      <Text style={styles.text}>{snackBarMessage}</Text>
+      <FontAwesome
+        name='undo'
+        color='white'
+        style={styles.undoButton}
+        onPress={() => {
+          addTodo;
+        }}
+      />
+    </View>
   </Snackbar>
 );
 
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
+    bottom: 25,
+    left: 20,
+    right: 20,
     backgroundColor: 'gray',
-    padding: 16,
+    borderRadius: 15,
+    height: 30, // Adjust the height value as needed
+    paddingHorizontal: 16, // Adjust the padding value as needed
+    justifyContent: 'center', // Center items vertically
+    alignItems: 'center', // Center items horizontally
+  },
+  innerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   text: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 15,
+  },
+  undoButton: {
+    fontSize:15
+  },
+  infoIcon: {
+    fontSize:17
   },
 });
 

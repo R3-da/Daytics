@@ -12,7 +12,9 @@ const Home = () => {
     const [addData, setAddData] = useState('');
     const [refreshing, setRefreshing] = useState(false); // added
     const navigation = useNavigation();
-    const [snackBarVisible, setSnackBarVisible] = useState(false); 
+    const [snackBarVisible, setSnackBarVisible] = useState(false);
+    const [snackBarMessage, setSnackBarMessage] = useState('');
+    const [deletedTodo, setDeletedTodo] = useState('')
 
     //fetch or read the data from firestore
     useEffect(() => {
@@ -40,6 +42,9 @@ const Home = () => {
             .doc(todos.id)
             .delete()
             .then(() => {
+                setDeletedTodo(todos);
+                setSnackBarMessage('Item Deleted');
+                setSnackBarVisible(true)
                 // show a successful alert
                 //alert('Delete Successfully')
             })
@@ -62,7 +67,7 @@ const Home = () => {
                 .add(data)
                 .then(() => {
                     setAddData('');
-                    // release Keyboard
+                    // release keyboard
                     Keyboard.dismiss();
                 })
                 .catch((error) => {
@@ -95,9 +100,6 @@ const Home = () => {
     return (
         <View style={{flex:1}}>
             <View style={styles.formContainer}> 
-                <View>
-                    <Button title="Show Snackbar" onPress={() => setSnackBarVisible(true)} />
-                </View>
                 <TextInput
                     style={styles.input}
                     placeholder='Add A New Todo'
@@ -123,7 +125,9 @@ const Home = () => {
                             <FontAwesome 
                                 name='trash-o'
                                 color='red'
-                                onPress={() => deleteTodo(item)}
+                                onPress={() => {
+                                    deleteTodo(item)
+                                }}
                                 style={styles.todoIcon}
                             />
                             <View style={styles.innerContainer}>
@@ -143,7 +147,15 @@ const Home = () => {
                     />
                 }
             />
-            <MySnackBar visible={snackBarVisible} onDismiss={() => setSnackBarVisible(false)} snackBarMessage = {'test'} />
+            <MySnackBar 
+                visible={snackBarVisible} 
+                onDismiss={() => {
+                    setSnackBarVisible(false);
+                    setSnackBarMessage('');
+                    setDeletedTodo('')
+                }} 
+                snackBarMessage = {snackBarMessage}
+            />
         </View>
     )
 }
