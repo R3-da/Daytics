@@ -1,14 +1,29 @@
-import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
-import React, {useState} from 'react';
+import { View, Text, TextInput, StyleSheet, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
+import React, {useState, useEffect} from 'react';
 import { firebase } from '../config';
 import { useNavigation } from '@react-navigation/native';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
+import { ScrollView } from 'react-native-gesture-handler';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import KeyboardListener from 'react-native-keyboard-listener';
+
 
 const Detail = ({route}) => {
     const todoRef = firebase.firestore().collection('todos');
     const [textHeading, onChangeHeadingText] = useState(route.params.item.heading);
     const [todoDescription, onChangeDescriptionText] = useState(route.params.item.description)
     const navigation = useNavigation();
+    const [windowHeight, setWindowHeight] = useState(Dimensions.get('window').height);
+
+    const handleKeyboardWillShow = (frames) => {
+        console.log('Keyboard will show:', frames.endCoordinates);
+        // Perform additional actions
+    };
+    
+    const handleKeyboardWillHide = () => {
+        console.log('Keyboard will hide');
+        // Perform additional actions
+    };
 
     const updateTodo = () => {
         if (textHeading &&  textHeading.length > 0) {
@@ -24,7 +39,10 @@ const Detail = ({route}) => {
     }
 
     return (
-        <View>
+        <KeyboardAwareScrollView
+            onKeyboardWillShow={handleKeyboardWillShow}
+            onKeyboardWillHide={handleKeyboardWillHide}
+        >
             <View style={styles.titleContainer}>
                 <TextInput
                     style={styles.titleInput}
@@ -33,6 +51,9 @@ const Detail = ({route}) => {
                     value={textHeading}
                     textAlignVertical="bottom"
                 />
+                <TouchableOpacity onPress={() => console.log(windowHeight)}>
+                    <Text style={styles.buttonText}>Add</Text>
+                </TouchableOpacity>
             </View>
             <View style={styles.decriptionContainer}>
                 <AutoGrowingTextInput 
@@ -42,9 +63,10 @@ const Detail = ({route}) => {
                     onChangeText= {onChangeDescriptionText}
                     onBlur={updateTodo()}
                     value={todoDescription}
+                    maxHeight={windowHeight * 0.75}
                 />
             </View>
-        </View>
+        </KeyboardAwareScrollView>
     )
 }
 
