@@ -3,7 +3,6 @@ import React, {useState, useEffect} from 'react';
 import { firebase } from '../config';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
-import {AsyncStorage} from 'react-native';
 import MySnackBar from '../Components/MySnackBar';
 
 const Home = () => {

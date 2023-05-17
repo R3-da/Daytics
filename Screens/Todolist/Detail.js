@@ -1,10 +1,8 @@
 import { View, Text, TextInput, StyleSheet, Dimensions, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import React, {useState} from 'react';
-import { firebase } from '../config';
+import { firebase } from '../../config';
 import { useNavigation } from '@react-navigation/native';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
-import Hypher from 'hypher';
-import english from 'hyphenation.en-us';
 
 
 const Detail = ({route}) => {
@@ -49,7 +47,7 @@ const Detail = ({route}) => {
                         placeholderTextColor='#aaaaaa'
                         onChangeText= {onChangeDescriptionText}
                         onBlur={updateTodo()}
-                        value={h.hyphenateText(todoDescription)}
+                        value={todoDescription}
                         maxHeight={windowHeight * 0.8}
                     />
                 </View>
