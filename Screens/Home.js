@@ -24,11 +24,12 @@ const Home = () => {
             querySnapshot => {
                 const todos = []
                 querySnapshot.forEach((doc) => {
-                    const {heading, createdAt} = doc.data()
+                    const {heading, createdAt, description} = doc.data()
                     todos.push({
                         id: doc.id,
                         heading,
                         createdAt,
+                        description,
                     })
                 })
                 setTodos(todos)
@@ -43,7 +44,6 @@ const Home = () => {
             .doc(todos.id)
             .delete()
             .then(() => {
-                console.log(todos.heading); // Console log the heading
                 setUndoData(todos);
                 setSnackBarMessage('Item Deleted');
                 setSnackBarVisible(true)
@@ -79,7 +79,8 @@ const Home = () => {
             const timestamp = firebase.firestore.FieldValue.serverTimestamp();
             const data = {
                 heading: addData,
-                createdAt: timestamp
+                createdAt: timestamp,
+                description: '',
             };
             todoRef
                 .add(data)
@@ -154,7 +155,7 @@ const Home = () => {
                             </TouchableOpacity>
                             <View style={styles.innerContainer}>
                                 <Text style={styles.itemHeading} numberOfLines={1}>
-                                    {item.heading[0].toUpperCase() + item.heading.slice(1)}
+                                    {item.heading}
                                 </Text>
                             </View>
                         </Pressable>
@@ -185,11 +186,11 @@ export default Home
 const styles = StyleSheet.create({
     container:{
         backgroundColor:'#e5e5e5',
-        paddingVertical: 8,
+        paddingVertical: 6,
         paddingHorizontal: 10,
         borderRadius : 15,
         margin: 5,
-        marginHorizontal : 10,
+        marginHorizontal : 15,
         flexDirection: 'row' ,
         alignItems: 'center'
     },
@@ -206,10 +207,10 @@ const styles = StyleSheet.create({
     },
     formContainer:{
         flexDirection:'row',
-        height:80,
-        marginLeft:10,
-        marginRight:10,
-        marginTop:50,
+        height:75,
+        marginHorizontal:15,
+        marginTop:15,
+        marginBottom:0
     },
     input:{
         height: 48,
@@ -234,7 +235,6 @@ const styles = StyleSheet.create({
     },
     deleteButton: {
         height:47,
-        borderRadius:20,
         backgroundColor:'transparent',
         width:60,
         alignItems:'center',

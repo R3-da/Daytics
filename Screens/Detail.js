@@ -2,13 +2,13 @@ import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
 import React, {useState} from 'react';
 import { firebase } from '../config';
 import { useNavigation } from '@react-navigation/native';
+import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 
 const Detail = ({route}) => {
     const todoRef = firebase.firestore().collection('todos');
     const [textHeading, onChangeHeadingText] = useState(route.params.item.heading);
+    const [todoDescription, onChangeDescriptionText] = useState(route.params.item.description)
     const navigation = useNavigation();
-
-    console.log(textHeading);
 
     const updateTodo = () => {
         if (textHeading &&  textHeading.length > 0) {
@@ -16,8 +16,7 @@ const Detail = ({route}) => {
             .doc(route.params.item.id)
             .update({
                 heading: textHeading,
-            }).then(() => {
-                navigation.navigate('Home')
+                description: todoDescription,
             }).catch((error) => {
                 alert(error.message)
             })
@@ -25,19 +24,26 @@ const Detail = ({route}) => {
     }
 
     return (
-        <View style={styles.container}>
-            <TextInput
-                style={styles.textField}
-                onChangeText={onChangeHeadingText}
-                value={textHeading}
-
-            />
-            <Pressable
-                style={styles.buttonUpdate}
-                onPress={() => {updateTodo()}}
-            >
-                <Text>UPDATE TODO</Text>
-            </Pressable>
+        <View>
+            <View style={styles.titleContainer}>
+                <TextInput
+                    style={styles.titleInput}
+                    onChangeText= {onChangeHeadingText}
+                    onBlur={updateTodo()}
+                    value={textHeading}
+                    textAlignVertical="bottom"
+                />
+            </View>
+            <View style={styles.decriptionContainer}>
+                <AutoGrowingTextInput 
+                    style={styles.descriptionInput} 
+                    placeholder='Description'
+                    placeholderTextColor='#aaaaaa'
+                    onChangeText= {onChangeDescriptionText}
+                    onBlur={updateTodo()}
+                    value={todoDescription}
+                />
+            </View>
         </View>
     )
 }
@@ -45,27 +51,29 @@ const Detail = ({route}) => {
 export default Detail
 
 const styles = StyleSheet.create({
-    container: {
-        marginTop:80,
+    titleContainer: {
+        marginTop:10,
+        marginLeft:15,
+        marginRight:15
+    },
+    titleInput: {
+        paddingLeft:10,
+        paddingTop:10,
+        paddingBottom:0,
+        fontSize:20,
+        color:'#000000',
+        backgroundColor:'transparent',
+    },
+    decriptionContainer: {
+        marginTop:15,
         marginLeft:15,
         marginRight:15,
     },
-    textField: {
-        marginBottom:10,
+    descriptionInput: {
         padding:10,
-        fontSize:15,
+        fontSize:16,
         color:'#000000',
         backgroundColor:'#e0e0e0',
         borderRadius:5
-    },
-    buttonUpdate: {
-        marginTop:25,
-        alignItems:'center',
-        justifyContent:'center',
-        paddingVertical:12,
-        paddingHorizontal:32,
-        borderRadius:4,
-        elevation:10,
-        backgroundColor:'#0de065'
     }
 })

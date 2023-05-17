@@ -8012,6 +8012,11 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-autogrow-textinput@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-autogrow-textinput/-/react-native-autogrow-textinput-5.4.0.tgz#df3d7a549d20e8bf34f493d2eaa1839d3e48a319"
+  integrity sha512-JnAPq0Oc+Q4gbMii+60Mk1Zep2ii3+bNHBffTMjH/vPQtpOH4bbgb+GQS9c+0uX51yuSxfbhIdgI7mvpj2f6ZA==
+
 react-native-codegen@^0.71.5:
   version "0.71.5"
   resolved "https://registry.yarnpkg.com/react-native-codegen/-/react-native-codegen-0.71.5.tgz#454a42a891cd4ca5fc436440d301044dc1349c14"
@@ -8033,7 +8038,7 @@ react-native-gesture-handler@~2.9.0:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
-react-native-gradle-plugin@^0.71.17:
+react-native-gradle-plugin@^0.71.18:
   version "0.71.18"
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.18.tgz#20ef199bc85be32e45bb6cc069ec2e7dcb1a74a6"
   integrity sha512-7F6bD7B8Xsn3JllxcwHhFcsl9aHIig47+3eN4IHFNqfLhZr++3ElDrcqfMzugM+niWbaMi7bJ0kAkAL8eCpdWg==
@@ -8060,10 +8065,15 @@ react-native-screens@^3.20.0:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
-react-native@0.71.7:
-  version "0.71.7"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.71.7.tgz#d0ae409f6ee4fc7e7a876b4ca9d8d28934133228"
-  integrity sha512-Id6iRLS581fJMFGbBl1jP5uSmjExtGOvw5Gvh7694zISXjsRAsFMmU+izs0pyCLqDBoHK7y4BT7WGPGw693nYw==
+react-native-textinput-utils@^0.3.7:
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/react-native-textinput-utils/-/react-native-textinput-utils-0.3.7.tgz#a9776ae0b42a0bfdd3e1f863ba2e3dadbc535382"
+  integrity sha512-AVXcHe6HKvLfazqo0py/p5cso9D5AIqBr7XNYzTH+TUHgMlFqAOq0B7ZmcDMjWhnP7Wbs2cwp0/kdDpYks36VA==
+
+react-native@0.71.8:
+  version "0.71.8"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.71.8.tgz#4314145341c49448cf7465b93ced52a433a5e191"
+  integrity sha512-ftMAuhpgTkbHU9brrqsEyxcNrpYvXKeATY+if22Nfhhg1zW+6wn95w9otwTnA3xHkljPCbng8mUhmmERjGEl7g==
   dependencies:
     "@jest/create-cache-key-function" "^29.2.1"
     "@react-native-community/cli" "10.2.2"
@@ -8090,7 +8100,7 @@ react-native@0.71.7:
     promise "^8.3.0"
     react-devtools-core "^4.26.1"
     react-native-codegen "^0.71.5"
-    react-native-gradle-plugin "^0.71.17"
+    react-native-gradle-plugin "^0.71.18"
     react-refresh "^0.4.0"
     react-shallow-renderer "^16.15.0"
     regenerator-runtime "^0.13.2"
