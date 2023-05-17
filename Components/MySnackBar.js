@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Button, Snackbar } from 'react-native-paper';
+import { Snackbar } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
 
 const MySnackBar = ({ visible, onDismiss, snackBarMessage, undoDeleteTodo }) => (

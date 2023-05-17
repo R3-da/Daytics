@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator} from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from './Screens/Todolist/Home';
-import Detail from './Screens/Todolist/Detail';
+import TasksScreen from './Screens/Todolist/TodoListScreen';
+import TaskScreen from './Screens/Todolist/TaskScreen';
 
 const Tab  = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -12,16 +12,18 @@ export default function App(){
     <NavigationContainer>
       <Tab.Navigator screenOptions={{headerShown: true}}>
         <Tab.Screen
-          name='Home'
-          component={Home}
+          name='Tasks'
+          component={TodoListScreen}
           options={{
-            title: 'Home',
+            title: 'Tasks',
             headerTitleAlign: 'center',
           }}
-        />
+        >
+
+        </Tab.Screen>
         <Tab.Screen
           name='Detail'
-          component={Detail}
+          component={DetailScreen}
           options={{
             title: 'Detail',
             headerTitleAlign: 'center',
