@@ -17,8 +17,8 @@ export default function App(){
 
             if (route.name === 'Account') {
               iconName = focused
-                ? 'person-outline'
-                : 'person';
+                ? 'person'
+                : 'person-outline';
             } else if (route.name === 'Tasks') {
               iconName = focused ? 'document-text' : 'document-text-outline';
             } else if (route.name === 'Timer') {
