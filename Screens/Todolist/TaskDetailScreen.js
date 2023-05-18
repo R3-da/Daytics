@@ -1,19 +1,17 @@
-import { View, Text, TextInput, StyleSheet, Dimensions, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Dimensions, KeyboardAvoidingView, ScrollView } from 'react-native';
 import React, {useState} from 'react';
 import { firebase } from '../../config';
 import { useNavigation } from '@react-navigation/native';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
-
 
 const Detail = ({route}) => {
     const todoRef = firebase.firestore().collection('todos');
     const [textHeading, onChangeHeadingText] = useState(route.params.item.heading);
     const [todoDescription, onChangeDescriptionText] = useState(route.params.item.description)
     const navigation = useNavigation();
-    const [windowHeight, setWindowHeight] = useState(Dimensions.get('window').height);
-    
 
-    const h = new Hypher(english);
+    // Get the dimensions of the screen
+    const windowHeight = Dimensions.get('window').height;
 
     const updateTodo = () => {
         if (textHeading &&  textHeading.length > 0) {
@@ -48,7 +46,7 @@ const Detail = ({route}) => {
                         onChangeText= {onChangeDescriptionText}
                         onBlur={updateTodo()}
                         value={todoDescription}
-                        maxHeight={windowHeight * 0.8}
+                        maxHeight={windowHeight * 0.75}
                     />
                 </View>
             </KeyboardAvoidingView>

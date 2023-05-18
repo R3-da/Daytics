@@ -1,33 +1,28 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator} from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import TasksScreen from './Screens/Todolist/TodoListScreen';
-import TaskScreen from './Screens/Todolist/TaskScreen';
+import TodoList from './Screens/Todolist/TodoListApp';
 
 const Tab  = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
 export default function App(){
   return(
     <NavigationContainer>
-      <Tab.Navigator screenOptions={{headerShown: true}}>
+      <Tab.Navigator screenOptions={{headerShown: false}}>
         <Tab.Screen
-          name='Tasks'
-          component={TodoListScreen}
-          options={{
-            title: 'Tasks',
-            headerTitleAlign: 'center',
-          }}
-        >
-
-        </Tab.Screen>
+          name='Account'
+          component={TodoList}
+        />
         <Tab.Screen
-          name='Detail'
-          component={DetailScreen}
-          options={{
-            title: 'Detail',
-            headerTitleAlign: 'center',
-          }}
+          name='To Do'
+          component={TodoList}
+        />
+        <Tab.Screen
+          name='Time Tracker'
+          component={TodoList}
+        />
+        <Tab.Screen
+          name='Settings'
+          component={TodoList}
         />
       </Tab.Navigator>
     </NavigationContainer>

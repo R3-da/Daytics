@@ -1,9 +1,9 @@
 import { View, Button, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Keyboard, Pressable, RefreshControl } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import { firebase } from '../config';
+import { firebase } from '../../config';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
-import MySnackBar from '../Components/MySnackBar';
+import MySnackBar from '../../Components/MySnackBar';
 
 const Home = () => {
     const [todos, setTodos] = useState([]);
