@@ -27,30 +27,30 @@ const Detail = ({route}) => {
     }
 
     return (
-        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-            <KeyboardAvoidingView style={styles.innerContainer} behavior="padding" keyboardVerticalOffset={20}>
-                <View style={styles.titleContainer}>
-                    <TextInput
-                        style={styles.titleInput}
-                        onChangeText= {onChangeHeadingText}
-                        onBlur={updateTodo()}
-                        value={textHeading}
-                        textAlignVertical="bottom"
-                    />
-                </View>
-                <View style={styles.decriptionContainer}>
-                    <AutoGrowingTextInput 
-                        style={styles.descriptionInput} 
-                        placeholder='Description'
-                        placeholderTextColor='#aaaaaa'
-                        onChangeText= {onChangeDescriptionText}
-                        onBlur={updateTodo()}
-                        value={todoDescription}
-                        maxHeight={windowHeight * 0.75}
-                    />
+            <KeyboardAvoidingView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled" behavior="padding">
+                <View style={styles.innerContainer}>
+                    <View style={styles.titleContainer}>
+                        <TextInput
+                            style={styles.titleInput}
+                            onChangeText= {onChangeHeadingText}
+                            onBlur={updateTodo()}
+                            value={textHeading}
+                            textAlignVertical="bottom"
+                        />
+                    </View>
+                    <View style={styles.decriptionContainer}>
+                        <AutoGrowingTextInput 
+                            style={styles.descriptionInput} 
+                            placeholder='Description'
+                            placeholderTextColor='#aaaaaa'
+                            onChangeText= {onChangeDescriptionText}
+                            onBlur={updateTodo()}
+                            value={todoDescription}
+                            maxHeight={windowHeight * 0.75}
+                        />
+                    </View>
                 </View>
             </KeyboardAvoidingView>
-        </ScrollView> 
         
     );
 }
@@ -59,10 +59,10 @@ export default Detail
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 1
     },
     innerContainer: {
-        flex: 1,
+        flexGrow: 1,
     },
     titleContainer: {
         marginTop:10,
@@ -74,12 +74,12 @@ const styles = StyleSheet.create({
         paddingTop:10,
         fontSize:20,
         color:'#000000',
-        backgroundColor:'transparent',
+        backgroundColor:'transparent'
     },
     decriptionContainer: {
         marginTop:15,
         marginLeft:15,
-        marginRight:15,
+        marginRight:15
     },
     descriptionInput: {
         padding:10,
