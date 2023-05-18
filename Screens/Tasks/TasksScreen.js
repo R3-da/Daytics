@@ -39,6 +39,7 @@ const Home = () => {
 
     // delete a todo from firestore db
     const deleteTodo = (todos) => {
+        
         todoRef
             .doc(todos.id)
             .delete()
@@ -56,7 +57,6 @@ const Home = () => {
 
     // undo tod
     const undoDeleteTodo = (undoData) => {
-        console.log
         todoRef
             .add(undoData)
             .then(() => {
@@ -73,7 +73,8 @@ const Home = () => {
     // add todo
     const addTodo = () => {
         //check if we have a todo
-        if (addData && addData.length > 0) {
+        if (addData && addData.length > 0) {            
+            setAddData('');
             //get the timestamp
             const timestamp = firebase.firestore.FieldValue.serverTimestamp();
             const data = {
@@ -84,7 +85,6 @@ const Home = () => {
             todoRef
                 .add(data)
                 .then(() => {
-                    setAddData('');
                     // release keyboard
                     Keyboard.dismiss();
                 })
@@ -92,27 +92,6 @@ const Home = () => {
                     alert(error);
                 })
         }
-    }
-
-    // refresh the data in the flatlist
-    const handleRefresh = () => {
-        setRefreshing(true);
-        todoRef
-        .orderBy('createdAt', 'desc')
-        .onSnapshot(
-            querySnapshot => {
-                const todos = []
-                querySnapshot.forEach((doc) => {
-                    const {heading} = doc.data()
-                    todos.push({
-                        id: doc.id,
-                        heading,
-                    })
-                })
-                setTodos(todos)
-                setRefreshing(false);
-            }
-        )
     }
 
     return (
