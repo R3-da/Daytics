@@ -4,8 +4,9 @@ import { firebase } from '../../firebase';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
 import MySnackBar from '../../Components/MySnackBar';
+import AppStyles from '../../Styles/AppStyles';
 
-const Home = () => {
+const TasksScreen = () => {
     const [tasks, setTasks] = useState([]);
     const todoRef = firebase.firestore().collection('tasks_db');
     const [newTaskName, setNewTaskName] = useState('');
@@ -23,12 +24,12 @@ const Home = () => {
             querySnapshot => {
                 const tasks = []
                 querySnapshot.forEach((doc) => {
-                    const {taskName, createdAt, description} = doc.data()
+                    const {taskName, createdAt, taskDescription} = doc.data()
                     tasks.push({
                         id: doc.id,
                         taskName,
                         createdAt,
-                        description,
+                        taskDescription,
                     })
                 })
                 setTasks(tasks)
@@ -38,7 +39,7 @@ const Home = () => {
     }, [])
 
     // delete a todo from firestore db
-    const deleteTodo = (task) => {
+    const deleteTask = (task) => {
         
         todoRef
             .doc(task.id)
@@ -56,7 +57,7 @@ const Home = () => {
     }
 
     // undo tod
-    const undoDeleteTodo = (undoData) => {
+    const undoDeleteTask = (undoData) => {
         todoRef
             .add(undoData)
             .then(() => {
@@ -78,7 +79,7 @@ const Home = () => {
             const data = {
                 taskName: newTaskName,
                 createdAt: timestamp,
-                description: '',
+                taskDescription: '',
             };
             setNewTaskName('');
             Keyboard.dismiss();
@@ -92,9 +93,9 @@ const Home = () => {
 
     return (
         <View style={{flex:1}}>
-            <View style={styles.formContainer}> 
+            <View style={AppStyles.formContainer}> 
                 <TextInput
-                    style={styles.input}
+                    style={AppStyles.input}
                     placeholder='Add A New Todo'
                     placeholderTextColor='#aaaaaa'
                     onChangeText={(newTaskName) => setNewTaskName(newTaskName)}
@@ -102,8 +103,8 @@ const Home = () => {
                     underlineColorAndroid='transparent'
                     autoCapitalize='none'
                 />
-                <TouchableOpacity style={styles.button} onPress={addTodo}>
-                    <Text style={styles.buttonText}>Add</Text>
+                <TouchableOpacity style={AppStyles.button} onPress={addTodo}>
+                    <Text style={AppStyles.buttonText}>Add</Text>
                 </TouchableOpacity>
             </View>
             <FlatList 
@@ -112,23 +113,23 @@ const Home = () => {
                 renderItem={({item}) => (
                     <View>
                         <Pressable
-                            style={styles.container}
-                            onPress={() => navigation.navigate('Detail', {item})}
+                            style={AppStyles.container}
+                            onPress={() => navigation.navigate('TaskDetailScreen', {item})}
                         >
                             <TouchableOpacity 
-                                style={styles.deleteButton}
+                                style={AppStyles.deleteButton}
                                 onPress={() => {
-                                    deleteTodo(item)
+                                    deleteTask(item)
                                 }}
                             >
                                 <FontAwesome 
                                     name='trash-o'
                                     color='tomato'
-                                    style={styles.deleteIcon}
+                                    style={AppStyles.deleteIcon}
                                 />
                             </TouchableOpacity>
-                            <View style={styles.innerContainer}>
-                                <Text style={styles.itemHeading} numberOfLines={1}>
+                            <View style={AppStyles.innerContainer}>
+                                <Text style={AppStyles.itemHeading} numberOfLines={1}>
                                     {item.taskName}
                                 </Text>
                             </View>
@@ -149,72 +150,10 @@ const Home = () => {
                     setSnackBarMessage('')
                 }} 
                 snackBarMessage = {snackBarMessage}
-                undoDeleteTodo={() => undoDeleteTodo(undoData)}
+                undoDeleteTask={() => undoDeleteTask(undoData)}
             />
         </View>
     )
 }
 
-export default Home
-
-const styles = StyleSheet.create({
-    container:{
-        backgroundColor:'#e5e5e5',
-        paddingVertical: 6,
-        paddingHorizontal: 10,
-        borderRadius : 15,
-        margin: 5,
-        marginHorizontal : 15,
-        flexDirection: 'row' ,
-        alignItems: 'center'
-    },
-    innerContainer:{
-        alignItems:'center',
-        flexDirection:'column',
-        marginLeft:5,
-        flex:1,
-        alignItems: 'flex-start' // Align the heading to the left
-    },
-    itemHeading:{
-        fontWeight:'bold',
-        fontSize:18
-    },
-    formContainer:{
-        flexDirection:'row',
-        height:75,
-        marginHorizontal:15,
-        marginTop:15,
-        marginBottom:0
-    },
-    input:{
-        height: 48,
-        borderRadius:5,
-        overflow:'hidden',
-        backgroundColor:'white',
-        paddingLeft:16,
-        flex:1,
-        marginRight:5,
-    },
-    button: {
-        height:47,
-        borderRadius:5,
-        backgroundColor:'#788eec',
-        width:80,
-        alignItems:'center',
-        justifyContent:'center'
-    },
-    buttonText: {
-        color:'white',
-        fontSize:20
-    },
-    deleteButton: {
-        height:47,
-        backgroundColor:'transparent',
-        width:60,
-        alignItems:'center',
-        justifyContent:'center'
-    },
-    deleteIcon: {
-        fontSize:20
-    }
-})
+export default TasksScreen

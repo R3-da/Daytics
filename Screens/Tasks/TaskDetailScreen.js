@@ -4,22 +4,21 @@ import { firebase } from '../../firebase';
 import { useNavigation } from '@react-navigation/native';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 
-const Detail = ({route}) => {
-    const todoRef = firebase.firestore().collection('todos');
-    const [textHeading, onChangeHeadingText] = useState(route.params.item.heading);
-    const [todoDescription, onChangeDescriptionText] = useState(route.params.item.description)
-    const navigation = useNavigation();
+const TaskDetailScreen = ({route}) => {
+    const todoRef = firebase.firestore().collection('tasks_db');
+    const [taskName, setTaskName] = useState(route.params.item.taskName);
+    const [taskDescription, setTaskDescription] = useState(route.params.item.taskDescription)
 
     // Get the dimensions of the screen
     const windowHeight = Dimensions.get('window').height;
 
-    const updateTodo = () => {
-        if (textHeading &&  textHeading.length > 0) {
+    const updateTask = () => {
+        if (taskName &&  taskName.length > 0) {
             todoRef
             .doc(route.params.item.id)
             .update({
-                heading: textHeading,
-                description: todoDescription,
+                taskName: taskName,
+                taskDescription: taskDescription,
             }).catch((error) => {
                 alert(error.message)
             })
@@ -27,35 +26,34 @@ const Detail = ({route}) => {
     }
 
     return (
-            <KeyboardAvoidingView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled" behavior="padding">
-                <View style={styles.innerContainer}>
-                    <View style={styles.titleContainer}>
-                        <TextInput
-                            style={styles.titleInput}
-                            onChangeText= {onChangeHeadingText}
-                            onBlur={updateTodo()}
-                            value={textHeading}
-                            textAlignVertical="bottom"
-                        />
-                    </View>
-                    <View style={styles.decriptionContainer}>
-                        <AutoGrowingTextInput 
-                            style={styles.descriptionInput} 
-                            placeholder='Description'
-                            placeholderTextColor='#aaaaaa'
-                            onChangeText= {onChangeDescriptionText}
-                            onBlur={updateTodo()}
-                            value={todoDescription}
-                            maxHeight={windowHeight * 0.75}
-                        />
-                    </View>
+        <KeyboardAvoidingView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled" behavior="padding">
+            <View style={styles.innerContainer}>
+                <View style={styles.titleContainer}>
+                    <TextInput
+                        style={styles.titleInput}
+                        onChangeText= {setTaskName}
+                        onBlur={updateTask()}
+                        value={taskName}
+                        textAlignVertical="bottom"
+                    />
                 </View>
-            </KeyboardAvoidingView>
-        
+                <View style={styles.decriptionContainer}>
+                    <AutoGrowingTextInput 
+                        style={styles.descriptionInput} 
+                        placeholder='Description'
+                        placeholderTextColor='#aaaaaa'
+                        onChangeText= {setTaskDescription}
+                        onBlur={updateTask()}
+                        value={taskDescription}
+                        maxHeight={windowHeight * 0.75}
+                    />
+                </View>
+            </View>
+        </KeyboardAvoidingView> 
     );
 }
 
-export default Detail
+export default TaskDetailScreen
 
 const styles = StyleSheet.create({
     container: {
