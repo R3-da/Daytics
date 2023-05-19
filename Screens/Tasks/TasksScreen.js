@@ -1,14 +1,14 @@
 import { View, Button, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Keyboard, Pressable, RefreshControl } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import { firebase } from '../../config';
+import { firebase } from '../../firebase';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
 import MySnackBar from '../../Components/MySnackBar';
 
 const Home = () => {
-    const [todos, setTodos] = useState([]);
-    const todoRef = firebase.firestore().collection('todos');
-    const [addData, setAddData] = useState('');
+    const [tasks, setTasks] = useState([]);
+    const todoRef = firebase.firestore().collection('tasks_db');
+    const [newTaskName, setNewTaskName] = useState('');
     const [refreshing, setRefreshing] = useState(false); // added
     const navigation = useNavigation();
     const [snackBarVisible, setSnackBarVisible] = useState(false);
@@ -21,30 +21,30 @@ const Home = () => {
         .orderBy('createdAt', 'desc')
         .onSnapshot(
             querySnapshot => {
-                const todos = []
+                const tasks = []
                 querySnapshot.forEach((doc) => {
-                    const {heading, createdAt, description} = doc.data()
-                    todos.push({
+                    const {taskName, createdAt, description} = doc.data()
+                    tasks.push({
                         id: doc.id,
-                        heading,
+                        taskName,
                         createdAt,
                         description,
                     })
                 })
-                setTodos(todos)
+                setTasks(tasks)
                 setRefreshing(false);
             }
         )
     }, [])
 
     // delete a todo from firestore db
-    const deleteTodo = (todos) => {
+    const deleteTodo = (task) => {
         
         todoRef
-            .doc(todos.id)
+            .doc(task.id)
             .delete()
             .then(() => {
-                setUndoData(todos);
+                setUndoData(task);
                 setSnackBarMessage('Item Deleted');
                 setSnackBarVisible(true)
                 // show a successful alert
@@ -60,7 +60,6 @@ const Home = () => {
         todoRef
             .add(undoData)
             .then(() => {
-                console.log(undoData.heading); // Console log the heading
                 setUndoData('');
                 setSnackBarVisible(false);
                 setSnackBarMessage
@@ -73,21 +72,18 @@ const Home = () => {
     // add todo
     const addTodo = () => {
         //check if we have a todo
-        if (addData && addData.length > 0) {            
-            setAddData('');
+        if (newTaskName && newTaskName.length > 0) {            
             //get the timestamp
             const timestamp = firebase.firestore.FieldValue.serverTimestamp();
             const data = {
-                heading: addData,
+                taskName: newTaskName,
                 createdAt: timestamp,
                 description: '',
             };
+            setNewTaskName('');
+            Keyboard.dismiss();
             todoRef
                 .add(data)
-                .then(() => {
-                    // release keyboard
-                    Keyboard.dismiss();
-                })
                 .catch((error) => {
                     alert(error);
                 })
@@ -101,8 +97,8 @@ const Home = () => {
                     style={styles.input}
                     placeholder='Add A New Todo'
                     placeholderTextColor='#aaaaaa'
-                    onChangeText={(heading) => setAddData(heading)}
-                    value={addData}
+                    onChangeText={(newTaskName) => setNewTaskName(newTaskName)}
+                    value={newTaskName}
                     underlineColorAndroid='transparent'
                     autoCapitalize='none'
                 />
@@ -111,7 +107,7 @@ const Home = () => {
                 </TouchableOpacity>
             </View>
             <FlatList 
-                data={todos}
+                data={tasks}
                 numColumns={1}
                 renderItem={({item}) => (
                     <View>
@@ -133,7 +129,7 @@ const Home = () => {
                             </TouchableOpacity>
                             <View style={styles.innerContainer}>
                                 <Text style={styles.itemHeading} numberOfLines={1}>
-                                    {item.heading}
+                                    {item.taskName}
                                 </Text>
                             </View>
                         </Pressable>

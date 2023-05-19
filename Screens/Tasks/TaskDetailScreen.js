@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet, Dimensions, KeyboardAvoidingView, ScrollView } from 'react-native';
 import React, {useState} from 'react';
-import { firebase } from '../../config';
+import { firebase } from '../../firebase';
 import { useNavigation } from '@react-navigation/native';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 
