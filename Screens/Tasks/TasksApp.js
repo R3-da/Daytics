@@ -18,6 +18,10 @@ export default function App(){
         <Stack.Screen
           name='TaskDetailScreen'
           component={TaskDetailScreen}
+          options={{
+            title: 'Detail',
+            headerTitleAlign: 'center',
+          }}
         />
       </Stack.Navigator>
   )
