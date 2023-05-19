@@ -1,4 +1,4 @@
-import { View, Button, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Keyboard, Pressable, RefreshControl } from 'react-native';
+import { View, Text, FlatList, TextInput, TouchableOpacity, Keyboard, Pressable, RefreshControl } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import { firebase } from '../../firebase';
 import { FontAwesome } from '@expo/vector-icons'; 
@@ -71,7 +71,7 @@ const TasksScreen = () => {
     }
 
     // add todo
-    const addTodo = () => {
+    const addTask = () => {
         //check if we have a todo
         if (newTaskName && newTaskName.length > 0) {            
             //get the timestamp
@@ -103,7 +103,7 @@ const TasksScreen = () => {
                     underlineColorAndroid='transparent'
                     autoCapitalize='none'
                 />
-                <TouchableOpacity style={AppStyles.addTaskButton} onPress={addTodo}>
+                <TouchableOpacity style={AppStyles.addTaskButton} onPress={addTask}>
                     <Text style={AppStyles.addTaskButtonText}>Add</Text>
                 </TouchableOpacity>
             </View>
