@@ -40,7 +40,6 @@ const TasksScreen = () => {
 
     // delete a todo from firestore db
     const deleteTask = (task) => {
-        
         tasks_Db_Ref
             .doc(task.id)
             .delete()
@@ -57,7 +56,7 @@ const TasksScreen = () => {
     }
 
     // undo tod
-    const undoDeleteTask = (undoData) => {
+    const undoDeleteTask = () => {
         tasks_Db_Ref
             .add(undoData)
             .then(() => {
@@ -144,7 +143,7 @@ const TasksScreen = () => {
                     setSnackBarMessage('')
                 }} 
                 snackBarMessage = {snackBarMessage}
-                undoDeleteTask={() => undoDeleteTask(undoData)}
+                undoDeleteTask={undoDeleteTask}
             />
         </View>
     )

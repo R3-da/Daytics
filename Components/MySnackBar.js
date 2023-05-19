@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Snackbar } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
 
-const MySnackBar = ({ visible, onDismiss, snackBarMessage, undoDeleteTodo }) => (
+const MySnackBar = ({ visible, onDismiss, snackBarMessage, undoDeleteTask }) => (
   <Snackbar
     visible={visible}
     onDismiss={onDismiss}
@@ -11,7 +11,7 @@ const MySnackBar = ({ visible, onDismiss, snackBarMessage, undoDeleteTodo }) => 
     style={styles.snackbar}
     action={{
       label: 'Undo',
-      onPress: undoDeleteTodo,
+      onPress: undoDeleteTask,
     }}
   >
     <View style={styles.content}>
