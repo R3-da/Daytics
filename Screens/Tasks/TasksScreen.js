@@ -8,7 +8,7 @@ import AppStyles from '../../Styles/AppStyles';
 
 const TasksScreen = () => {
     const [tasks, setTasks] = useState([]);
-    const todoRef = firebase.firestore().collection('tasks_db');
+    const tasks_Db_Ref = firebase.firestore().collection('tasks_db');
     const [newTaskName, setNewTaskName] = useState('');
     const [refreshing, setRefreshing] = useState(false); // added
     const navigation = useNavigation();
@@ -18,7 +18,7 @@ const TasksScreen = () => {
 
     //fetch or read the data from firestore
     useEffect(() => {
-        todoRef
+        tasks_Db_Ref
         .orderBy('createdAt', 'desc')
         .onSnapshot(
             querySnapshot => {
@@ -41,7 +41,7 @@ const TasksScreen = () => {
     // delete a todo from firestore db
     const deleteTask = (task) => {
         
-        todoRef
+        tasks_Db_Ref
             .doc(task.id)
             .delete()
             .then(() => {
@@ -58,7 +58,7 @@ const TasksScreen = () => {
 
     // undo tod
     const undoDeleteTask = (undoData) => {
-        todoRef
+        tasks_Db_Ref
             .add(undoData)
             .then(() => {
                 setUndoData('');
@@ -83,7 +83,7 @@ const TasksScreen = () => {
             };
             setNewTaskName('');
             Keyboard.dismiss();
-            todoRef
+            tasks_Db_Ref
                 .add(data)
                 .catch((error) => {
                     alert(error);
@@ -136,12 +136,6 @@ const TasksScreen = () => {
                         </Pressable>
                     </View>
                 )}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={false} // state variable to keep track of refresh status
-                        onRefresh={() => console.log('onRefresh')} // function to handle refresh action
-                    />
-                }
             />
             <MySnackBar 
                 visible={snackBarVisible} 

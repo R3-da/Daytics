@@ -89,5 +89,60 @@ export default StyleSheet.create({
         color:'#000000',
         backgroundColor:'#e0e0e0',
         borderRadius:5
+    },
+    accountContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loginInputContainer: {
+        flexDirection:'row',
+        height:75,
+        marginHorizontal:50
+    },
+    loginInputText: {
+        height: 48,
+        borderRadius:5,
+        overflow:'hidden',
+        backgroundColor:'white',
+        paddingHorizontal:16,
+        flex:1,
+        marginRight:5,
+        fontSize:15
+    },
+    loginButton: {
+        width: '35%',
+        height: 48,
+        borderRadius: 8,
+        backgroundColor: '#4CAF50',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 16,
+    },
+    loginButtonText: {
+      color: 'white',
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    signUpButton: {
+        width: '35%',
+        height: 48,
+        borderRadius: 8,
+        backgroundColor: '#2196F3',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 16,
+    },
+    signUpButtonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    forgotPasswordButton: {
+        marginBottom: 16,
+    },
+    forgotPasswordButtonText: {
+        fontSize: 14,
+        color: '#888888',
     }
 });

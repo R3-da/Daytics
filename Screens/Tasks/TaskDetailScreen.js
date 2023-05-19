@@ -6,7 +6,7 @@ import AppStyles from '../../Styles/AppStyles';
 
 
 const TaskDetailScreen = ({route}) => {
-    const todoRef = firebase.firestore().collection('tasks_db');
+    const tasks_Db_Ref = firebase.firestore().collection('tasks_db');
     const [taskName, setTaskName] = useState(route.params.item.taskName);
     const [taskDescription, setTaskDescription] = useState(route.params.item.taskDescription)
 
@@ -15,7 +15,7 @@ const TaskDetailScreen = ({route}) => {
 
     const updateTask = () => {
         if (taskName &&  taskName.length > 0) {
-            todoRef
+            tasks_Db_Ref
             .doc(route.params.item.id)
             .update({
                 taskName: taskName,

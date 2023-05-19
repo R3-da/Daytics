@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import AppStyles from '../../Styles/AppStyles';
 
 const AccountScreen = () => {
   const [email, setEmail] = useState('');
@@ -18,35 +19,40 @@ const AccountScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.logo}>Your Logo</Text>
+    <View style={AppStyles.accountContainer}>
+      <View style={AppStyles.loginInputContainer}>
+        <TextInput
+          style={AppStyles.loginInputText}
+          placeholder="Email"
+          placeholderTextColor='#aaaaaa'
+          onChangeText={(text) => setEmail(text)}
+          value={email}
+          autoCapitalize="none"
+        />
+      </View>
+      
+      <View style={AppStyles.loginInputContainer}>
+        <TextInput
+          style={AppStyles.loginInputText}
+          placeholder="Password"
+          placeholderTextColor='#aaaaaa'
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+          secureTextEntry
+          autoCapitalize='none'
+        />
+      </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        onChangeText={(text) => setEmail(text)}
-        value={email}
-        autoCapitalize="none"
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={(text) => setPassword(text)}
-        value={password}
-        secureTextEntry
-      />
-
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>Login</Text>
+      <TouchableOpacity style={AppStyles.loginButton} onPress={handleLogin}>
+        <Text style={AppStyles.loginButtonText} >Login</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-        <Text style={styles.signUpButtonText}>Sign Up</Text>
+      <TouchableOpacity style={AppStyles.signUpButton} onPress={handleSignUp}>
+        <Text style={AppStyles.signUpButtonText}>Sign Up</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.forgotPasswordButton} onPress={handleForgotPassword}>
-        <Text style={styles.forgotPasswordButtonText}>Forgot Password?</Text>
+      <TouchableOpacity style={AppStyles.forgotPasswordButton} onPress={handleForgotPassword}>
+        <Text style={AppStyles.forgotPasswordButtonText}>Forgot Password?</Text>
       </TouchableOpacity>
     </View>
   );
