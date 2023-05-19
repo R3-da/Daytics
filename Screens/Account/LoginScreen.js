@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import AppStyles from '../../Styles/AppStyles';
+import SignUpPopup from './SignUpPopUp';
+import ResetPasswordPopup from './ResetPasswordPopup'
 
-const AccountScreen = () => {
+const LoginScreen = () => {
+  const [isSignUpVisible, setIsSignUpVisible] = useState(false);
+  const [isResetPasswordVisible, setIsResetPasswordVisible] = useState(false);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -12,10 +17,21 @@ const AccountScreen = () => {
 
   const handleSignUp = () => {
     // Implement your sign up logic here
+    openSignUpPopup();
+    console.log('test')
+  };
+
+  const openSignUpPopup = () => {
+    setIsSignUpVisible(true);
+  };
+
+  const closeSignUpPopup = () => {
+    setIsSignUpVisible(false);
   };
 
   const handleForgotPassword = () => {
     // Implement your forgot password logic here
+    setIsResetPasswordVisible(true)
   };
 
   return (
@@ -50,6 +66,8 @@ const AccountScreen = () => {
       <TouchableOpacity style={AppStyles.signUpButton} onPress={handleSignUp}>
         <Text style={AppStyles.signUpButtonText}>Sign Up</Text>
       </TouchableOpacity>
+      
+      <SignUpPopup isVisible={isSignUpVisible} onClose={closeSignUpPopup} />
 
       <TouchableOpacity style={AppStyles.forgotPasswordButton} onPress={handleForgotPassword}>
         <Text style={AppStyles.forgotPasswordButtonText}>Forgot Password?</Text>
@@ -114,4 +132,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AccountScreen;
+export default LoginScreen;
