@@ -93,9 +93,9 @@ const TasksScreen = () => {
 
     return (
         <View style={{flex:1}}>
-            <View style={AppStyles.formContainer}> 
+            <View style={AppStyles.taskInputContainer}> 
                 <TextInput
-                    style={AppStyles.input}
+                    style={AppStyles.taskInputText}
                     placeholder='Add A New Todo'
                     placeholderTextColor='#aaaaaa'
                     onChangeText={(newTaskName) => setNewTaskName(newTaskName)}
@@ -103,8 +103,8 @@ const TasksScreen = () => {
                     underlineColorAndroid='transparent'
                     autoCapitalize='none'
                 />
-                <TouchableOpacity style={AppStyles.button} onPress={addTodo}>
-                    <Text style={AppStyles.buttonText}>Add</Text>
+                <TouchableOpacity style={AppStyles.addTaskButton} onPress={addTodo}>
+                    <Text style={AppStyles.addTaskButtonText}>Add</Text>
                 </TouchableOpacity>
             </View>
             <FlatList 
@@ -113,11 +113,11 @@ const TasksScreen = () => {
                 renderItem={({item}) => (
                     <View>
                         <Pressable
-                            style={AppStyles.container}
+                            style={AppStyles.taskContainer}
                             onPress={() => navigation.navigate('TaskDetailScreen', {item})}
                         >
                             <TouchableOpacity 
-                                style={AppStyles.deleteButton}
+                                style={AppStyles.deleteTaskButton}
                                 onPress={() => {
                                     deleteTask(item)
                                 }}
@@ -125,11 +125,11 @@ const TasksScreen = () => {
                                 <FontAwesome 
                                     name='trash-o'
                                     color='tomato'
-                                    style={AppStyles.deleteIcon}
+                                    style={AppStyles.deleteTaskIcon}
                                 />
                             </TouchableOpacity>
-                            <View style={AppStyles.innerContainer}>
-                                <Text style={AppStyles.itemHeading} numberOfLines={1}>
+                            <View style={AppStyles.taskInnerContainer}>
+                                <Text style={AppStyles.taskNameText} numberOfLines={1}>
                                     {item.taskName}
                                 </Text>
                             </View>

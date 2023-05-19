@@ -1,8 +1,9 @@
 import { View, Text, TextInput, StyleSheet, Dimensions, KeyboardAvoidingView, ScrollView } from 'react-native';
 import React, {useState} from 'react';
 import { firebase } from '../../firebase';
-import { useNavigation } from '@react-navigation/native';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
+import AppStyles from '../../Styles/AppStyles';
+
 
 const TaskDetailScreen = ({route}) => {
     const todoRef = firebase.firestore().collection('tasks_db');
@@ -26,20 +27,20 @@ const TaskDetailScreen = ({route}) => {
     }
 
     return (
-        <KeyboardAvoidingView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled" behavior="padding">
-            <View style={styles.innerContainer}>
-                <View style={styles.titleContainer}>
+        <KeyboardAvoidingView contentContainerStyle={AppStyles.container} keyboardShouldPersistTaps="handled" behavior="padding">
+            <View style={AppStyles.innerContainer}>
+                <View style={AppStyles.taskNameContainerDesc}>
                     <TextInput
-                        style={styles.titleInput}
+                        style={AppStyles.taskNameInputDesc}
                         onChangeText= {setTaskName}
                         onBlur={updateTask()}
                         value={taskName}
                         textAlignVertical="bottom"
                     />
                 </View>
-                <View style={styles.decriptionContainer}>
+                <View style={AppStyles.taskDecriptionContainer}>
                     <AutoGrowingTextInput 
-                        style={styles.descriptionInput} 
+                        style={AppStyles.taskDescriptionInput} 
                         placeholder='Description'
                         placeholderTextColor='#aaaaaa'
                         onChangeText= {setTaskDescription}
@@ -54,36 +55,3 @@ const TaskDetailScreen = ({route}) => {
 }
 
 export default TaskDetailScreen
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    innerContainer: {
-        flexGrow: 1,
-    },
-    titleContainer: {
-        marginTop:10,
-        marginLeft:15,
-        marginRight:15
-    },
-    titleInput: {
-        paddingLeft:10,
-        paddingTop:10,
-        fontSize:20,
-        color:'#000000',
-        backgroundColor:'transparent'
-    },
-    decriptionContainer: {
-        marginTop:15,
-        marginLeft:15,
-        marginRight:15
-    },
-    descriptionInput: {
-        padding:10,
-        fontSize:16,
-        color:'#000000',
-        backgroundColor:'#e0e0e0',
-        borderRadius:5
-    }
-})

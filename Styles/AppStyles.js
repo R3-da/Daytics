@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-    container:{
+    taskContainer:{
         backgroundColor:'#e5e5e5',
         paddingVertical: 6,
         paddingHorizontal: 10,
@@ -11,25 +11,25 @@ export default StyleSheet.create({
         flexDirection: 'row' ,
         alignItems: 'center'
     },
-    innerContainer:{
+    taskInnerContainer:{
         alignItems:'center',
         flexDirection:'column',
         marginLeft:5,
         flex:1,
         alignItems: 'flex-start' // Align the heading to the left
     },
-    itemHeading:{
+    taskNameText:{
         fontWeight:'bold',
         fontSize:18
     },
-    formContainer:{
+    taskInputContainer:{
         flexDirection:'row',
         height:75,
         marginHorizontal:15,
         marginTop:15,
         marginBottom:0
     },
-    input:{
+    taskInputText:{
         height: 48,
         borderRadius:5,
         overflow:'hidden',
@@ -38,7 +38,7 @@ export default StyleSheet.create({
         flex:1,
         marginRight:5,
     },
-    button: {
+    addTaskButton: {
         height:47,
         borderRadius:5,
         backgroundColor:'#788eec',
@@ -46,18 +46,48 @@ export default StyleSheet.create({
         alignItems:'center',
         justifyContent:'center'
     },
-    buttonText: {
+    addTaskButtonText: {
         color:'white',
         fontSize:20
     },
-    deleteButton: {
+    deleteTaskButton: {
         height:47,
         backgroundColor:'transparent',
         width:60,
         alignItems:'center',
         justifyContent:'center'
     },
-    deleteIcon: {
+    deleteTaskIcon: {
         fontSize:20
+    },
+    container: {
+        flex: 1
+    },
+    innerContainer: {
+        flexGrow: 1,
+    },
+    taskNameContainerDesc: {
+        marginTop:10,
+        marginLeft:15,
+        marginRight:15
+    },
+    taskNameInputDesc: {
+        paddingLeft:10,
+        paddingTop:10,
+        fontSize:20,
+        color:'#000000',
+        backgroundColor:'transparent'
+    },
+    taskDecriptionContainer: {
+        marginTop:15,
+        marginLeft:15,
+        marginRight:15
+    },
+    taskDescriptionInput: {
+        padding:10,
+        fontSize:16,
+        color:'#000000',
+        backgroundColor:'#e0e0e0',
+        borderRadius:5
     }
 });
