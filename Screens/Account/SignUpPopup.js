@@ -34,7 +34,6 @@ const SignUpPopup = ({ isVisible, onClose }) => {
   };
 
   const handleClose = () => {
-    // Fade out animation when closing the pop-up
     Animated.parallel([
       Animated.timing(containerOpacity, {
         toValue: 0,
@@ -46,49 +45,56 @@ const SignUpPopup = ({ isVisible, onClose }) => {
         duration: 300,
         useNativeDriver: true,
       }),
-    ]).start(onClose);
+    ]).start(() => {
+      onClose(); // Call the onClose callback to close the sign-up popup
+    });
   };
 
   const handleOverlayClick = () => {
-    // Close the pop-up when clicking outside
     handleClose();
+  };
+
+  const handleContentClick = (e) => {
+    e.stopPropagation(); // Stop the event propagation to prevent closing when clicking inside the content
   };
 
   return (
     <Modal visible={isVisible} transparent onRequestClose={onClose}>
       <TouchableWithoutFeedback onPress={handleOverlayClick}>
         <Animated.View style={[styles.container, { opacity: containerOpacity }]}>
-          <Animated.View style={[styles.content, { opacity: contentOpacity }]}>
-            <View style={styles.signUpTitleContainer}>
-              <Text style={styles.title}>Sign Up</Text>
-            </View>
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              onChangeText={setEmail}
-              value={email}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              onChangeText={setPassword}
-              value={password}
-              secureTextEntry
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Confirm Password"
-              onChangeText={setConfirmPassword}
-              value={confirmPassword}
-              secureTextEntry
-            />
-            <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-              <Text style={styles.buttonText}>Create Account</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.cancelButton} onPress={handleClose}>
-              <Ionicons name="close-outline" size={25} color="gray" />
-            </TouchableOpacity>
-          </Animated.View>
+          <TouchableWithoutFeedback onPress={handleContentClick}>
+            <Animated.View style={[styles.content, { opacity: contentOpacity }]}>
+              <View style={styles.signUpTitleContainer}>
+                <Text style={styles.title}>Sign Up</Text>
+              </View>
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                onChangeText={setEmail}
+                value={email}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                onChangeText={setPassword}
+                value={password}
+                secureTextEntry
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Confirm Password"
+                onChangeText={setConfirmPassword}
+                value={confirmPassword}
+                secureTextEntry
+              />
+              <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+                <Text style={styles.buttonText}>Create Account</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.cancelButton} onPress={handleClose}>
+                <Ionicons name="close-outline" size={25} color="gray" />
+              </TouchableOpacity>
+            </Animated.View>
+          </TouchableWithoutFeedback>
         </Animated.View>
       </TouchableWithoutFeedback>
     </Modal>
