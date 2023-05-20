@@ -42,7 +42,7 @@ const AccountScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Ionicons name="person-circle-outline" size={150} color="gray" />
+      <Ionicons name="person-circle-outline" size={150} color="gray" style={styles.logo} />
       <Text style={styles.title}>{auth.currentUser.email}</Text>
 
       {!showInputs && (
@@ -53,36 +53,36 @@ const AccountScreen = ({ navigation }) => {
 
       {showInputs && (
         <>
-            <View style={styles.inputContainer}>
-                <TextInput
-                style={styles.input}
-                placeholder="Current Password"
-                secureTextEntry
-                value={currentPassword}
-                onChangeText={setCurrentPassword}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="New Password"
-                    secureTextEntry
-                    value={newPassword}
-                    onChangeText={setNewPassword}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Confirm Password"
-                    secureTextEntry
-                    value={confirmPassword}
-                    onChangeText={setConfirmPassword}
-                />
-            </View>
-            <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
-                <Text style={styles.buttonText}>Save Password</Text>
-            </TouchableOpacity>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Current Password"
+              secureTextEntry
+              value={currentPassword}
+              onChangeText={setCurrentPassword}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="New Password"
+              secureTextEntry
+              value={newPassword}
+              onChangeText={setNewPassword}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Confirm Password"
+              secureTextEntry
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+            />
+          </View>
+          <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
+            <Text style={styles.buttonText}>Save Password</Text>
+          </TouchableOpacity>
 
-            <TouchableOpacity style={styles.cancelButton} onPress={toggleInputs}>
-                <Text style={styles.buttonText}>Cancel</Text>
-            </TouchableOpacity>
+          <TouchableOpacity style={styles.cancelButton} onPress={toggleInputs}>
+            <Text style={styles.buttonText}>Cancel</Text>
+          </TouchableOpacity>
         </>
       )}
 
@@ -107,6 +107,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     marginBottom: 20,
+  },
+  logo: {
+    opacity: 0.5,
   },
   button: {
     backgroundColor: '#007AFF',
