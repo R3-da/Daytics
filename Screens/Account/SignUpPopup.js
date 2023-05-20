@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal, Animated, TouchableWithoutFeedback } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AppStyles from '../../Styles/AppStyles';
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 const SignUpPopup = ({ isVisible, onClose }) => {
   const [email, setEmail] = useState('');
@@ -9,6 +11,7 @@ const SignUpPopup = ({ isVisible, onClose }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [containerOpacity] = useState(new Animated.Value(0)); // Initialize container opacity value
   const [contentOpacity] = useState(new Animated.Value(0)); // Initialize content opacity value
+  const [validationMessage, setValidationMessage] = useState("");
 
   useEffect(() => {
     if (isVisible) {
@@ -28,10 +31,34 @@ const SignUpPopup = ({ isVisible, onClose }) => {
     }
   }, [isVisible, containerOpacity, contentOpacity]);
 
+  const validateAndSet = (value, valueToCompare, setValue) => {
+    if (value !== valueToCompare) {
+      setValidationMessage("Passwords do not match.");
+    } else {
+      setValidationMessage("");
+    }
+    setValue(value);
+  };
+
   const handleSignUp = () => {
     // Implement your sign-up logic here
     // You can access the entered email, password, and confirmPassword values
     // Validate the input and perform the necessary actions, such as making an API call to register the user
+    if (password === confirmPassword) {
+        createUserWithEmailAndPassword(auth ,email, password)
+        .then(() => {
+          console.log('test')
+          sendEmailVerification(auth.currentUser);
+          handleClose();
+          setEmail('');
+          setPassword('');
+          setConfirmPassword('');
+          setValidationMessage('Account Created Successfully');
+        })
+        .catch((error) => {
+          setValidationMessage(error.message);
+        });
+    }
   };
 
   const handleClose = () => {
@@ -77,17 +104,18 @@ const SignUpPopup = ({ isVisible, onClose }) => {
               <TextInput
                 style={AppStyles.popInput}
                 placeholder="Password"
-                onChangeText={setPassword}
+                onChangeText={(value) => validateAndSet(value, confirmPassword, setPassword)}
                 value={password}
                 secureTextEntry
               />
               <TextInput
                 style={AppStyles.popInput}
                 placeholder="Confirm Password"
-                onChangeText={setConfirmPassword}
+                onChangeText={(value) => validateAndSet(value, password, setConfirmPassword)}
                 value={confirmPassword}
                 secureTextEntry
               />
+              <Text >{validationMessage}</Text>
               <TouchableOpacity style={AppStyles.createAccountButton} onPress={handleSignUp}>
                 <Text style={AppStyles.createAccountButtonText}>Create Account</Text>
               </TouchableOpacity>
