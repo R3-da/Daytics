@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal, Animated, TouchableWithoutFeedback } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AppStyles from '../../Styles/AppStyles';
-import { firebase, auth } from "../../firebase";
+import { auth } from "../../firebase";
 
 const SignUpPopup = ({ isVisible, onClose }) => {
   const [email, setEmail] = useState('');
