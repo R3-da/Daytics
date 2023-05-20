@@ -19,6 +19,7 @@ const TasksScreen = () => {
     //fetch or read the data from firestore
     useEffect(() => {
         tasks_Db_Ref
+        .where("userId", "==", auth.currentUser.uid)
         .orderBy('createdAt', 'desc')
         .onSnapshot(
             querySnapshot => {
