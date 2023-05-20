@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal, Animated, TouchableWithoutFeedback } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AppStyles from '../../Styles/AppStyles';
-import { firebase } from "../../firebase";
+import { firebase, auth } from "../../firebase";
 
 const SignUpPopup = ({ isVisible, onClose }) => {
   const [email, setEmail] = useState('');
@@ -44,15 +44,15 @@ const SignUpPopup = ({ isVisible, onClose }) => {
     // You can access the entered email, password, and confirmPassword values
     // Validate the input and perform the necessary actions, such as making an API call to register the user
     if (password === confirmPassword) {
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          console.log('test')
-          //sendEmailVerification(auth.currentUser);
+      auth.createUserWithEmailAndPassword(email , password)
+        .then((userCredential)=>{
+          userCredential.user.sendEmailVerification();
+          auth.signOut();
           handleClose();
           setEmail('');
           setPassword('');
           setConfirmPassword('');
-          setValidationMessage('Account Created Successfully');
+          setValidationMessage('Email Verification Is Sent');
         })
         .catch((error) => {
           setValidationMessage(error.message);
