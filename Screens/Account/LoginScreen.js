@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import AppStyles from '../../Styles/AppStyles';
 import SignUpPopup from './SignUpPopUp';
-import ResetPasswordPopup from './ResetPasswordPopup'
+import ResetPasswordPopup from './ResetPasswordPopUp'
 
 const LoginScreen = () => {
   const [isSignUpVisible, setIsSignUpVisible] = useState(false);
