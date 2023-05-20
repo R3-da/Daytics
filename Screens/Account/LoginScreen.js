@@ -4,11 +4,12 @@ import AppStyles from '../../Styles/AppStyles';
 import SignUpPopup from './SignUpPopUp';
 import ResetPasswordPopup from './ResetPasswordPopUp'
 import { auth } from "../../firebase";
+import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
   const [isSignUpVisible, setIsSignUpVisible] = useState(false);
   const [isResetPasswordVisible, setIsResetPasswordVisible] = useState(false);
-
+  const navigation = useNavigation();
   const [errorMessage, setErrorMessage] = useState("");
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,9 +18,8 @@ const LoginScreen = () => {
     // Implement your login logic here
     if (email !== "" && password !== "") {
       auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          //navigation.navigate("ToDo", { user: userCredential.user });
-          console.log('loged in successfully')
+        .then(() => {
+          navigation.navigate("AccountScreen");
           setErrorMessage("");
           setEmail("");
           setPassword("");

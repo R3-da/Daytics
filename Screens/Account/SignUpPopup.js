@@ -47,7 +47,6 @@ const SignUpPopup = ({ isVisible, onClose }) => {
       auth.createUserWithEmailAndPassword(email , password)
         .then((userCredential)=>{
           userCredential.user.sendEmailVerification();
-          auth.signOut();
           handleClose();
           setEmail('');
           setPassword('');
