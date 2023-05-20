@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal, Animated, TouchableWithoutFeedback } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AppStyles from '../../Styles/AppStyles';
 
 const SignUpPopup = ({ isVisible, onClose }) => {
   const [email, setEmail] = useState('');
@@ -61,36 +62,36 @@ const SignUpPopup = ({ isVisible, onClose }) => {
   return (
     <Modal visible={isVisible} transparent onRequestClose={onClose}>
       <TouchableWithoutFeedback onPress={handleOverlayClick}>
-        <Animated.View style={[styles.container, { opacity: containerOpacity }]}>
+        <Animated.View style={[AppStyles.popUpContainer, { opacity: containerOpacity }]}>
           <TouchableWithoutFeedback onPress={handleContentClick}>
-            <Animated.View style={[styles.content, { opacity: contentOpacity }]}>
-              <View style={styles.signUpTitleContainer}>
-                <Text style={styles.title}>Sign Up</Text>
+            <Animated.View style={[AppStyles.popUpContent, { opacity: contentOpacity }]}>
+              <View style={AppStyles.signUpTitleContainer}>
+                <Text style={AppStyles.signUptitle}>Sign Up</Text>
               </View>
               <TextInput
-                style={styles.input}
+                style={AppStyles.popInput}
                 placeholder="Email"
                 onChangeText={setEmail}
                 value={email}
               />
               <TextInput
-                style={styles.input}
+                style={AppStyles.popInput}
                 placeholder="Password"
                 onChangeText={setPassword}
                 value={password}
                 secureTextEntry
               />
               <TextInput
-                style={styles.input}
+                style={AppStyles.popInput}
                 placeholder="Confirm Password"
                 onChangeText={setConfirmPassword}
                 value={confirmPassword}
                 secureTextEntry
               />
-              <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-                <Text style={styles.buttonText}>Create Account</Text>
+              <TouchableOpacity style={AppStyles.createAccountButton} onPress={handleSignUp}>
+                <Text style={AppStyles.createAccountButtonText}>Create Account</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.cancelButton} onPress={handleClose}>
+              <TouchableOpacity style={AppStyles.popUpCloseButton} onPress={handleClose}>
                 <Ionicons name="close-outline" size={25} color="gray" />
               </TouchableOpacity>
             </Animated.View>
@@ -99,72 +100,6 @@ const SignUpPopup = ({ isVisible, onClose }) => {
       </TouchableWithoutFeedback>
     </Modal>
   );
-};
-
-const styles = {
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
-  },
-  content: {
-    width: '80%',
-    backgroundColor: 'white',
-    padding: 30,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  input: {
-    width: '100%',
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-  },
-  button: {
-    backgroundColor: '#788eec',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginTop: 15,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  cancelButton: {
-    backgroundColor: 'transparent',
-    paddingVertical: 3,
-    paddingHorizontal: 6,
-    borderRadius: 5,
-    position: 'absolute',
-    top: 0,
-    right: 0,
-  },
-  closeIcon: {
-    color: 'gray',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    padding: 0, // Remove padding around the close icon
-    margin: 0, // Remove margin around the close icon
-  },
-  signUpTitleContainer: {
-    width: '100%',
-    flexDirection: 'row', // Arrange items horizontally
-    alignItems: 'center', // Center items vertically
-    justifyContent: 'center', // Push items to the start and end
-  },
 };
 
 export default SignUpPopup;

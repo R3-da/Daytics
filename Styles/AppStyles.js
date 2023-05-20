@@ -144,5 +144,60 @@ export default StyleSheet.create({
     forgotPasswordButtonText: {
         fontSize: 14,
         color: '#888888',
+    },
+    popUpContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+    },
+    popUpContent: {
+        width: '80%',
+        backgroundColor: 'white',
+        padding: 30,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    signUptitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    popInput: {
+        width: '100%',
+        height: 40,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        marginBottom: 10,
+        paddingHorizontal: 10,
+    },
+    createAccountButton: {
+        backgroundColor: '#788eec',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        marginTop: 15,
+    },
+    createAccountButtonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    popUpCloseButton: {
+        backgroundColor: 'transparent',
+        paddingVertical: 3,
+        paddingHorizontal: 6,
+        borderRadius: 5,
+        position: 'absolute',
+        top: 0,
+        right: 0,
+    },
+    signUpTitleContainer: {
+        width: '100%',
+        flexDirection: 'row', // Arrange items horizontally
+        alignItems: 'center', // Center items vertically
+        justifyContent: 'center', // Push items to the start and end
     }
 });
