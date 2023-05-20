@@ -53,35 +53,36 @@ const AccountScreen = ({ navigation }) => {
 
       {showInputs && (
         <>
-          <TextInput
-            style={styles.input}
-            placeholder="Current Password"
-            secureTextEntry
-            value={currentPassword}
-            onChangeText={setCurrentPassword}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="New Password"
-            secureTextEntry
-            value={newPassword}
-            onChangeText={setNewPassword}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Confirm Password"
-            secureTextEntry
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-          />
+            <View style={styles.inputContainer}>
+                <TextInput
+                style={styles.input}
+                placeholder="Current Password"
+                secureTextEntry
+                value={currentPassword}
+                onChangeText={setCurrentPassword}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="New Password"
+                    secureTextEntry
+                    value={newPassword}
+                    onChangeText={setNewPassword}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Confirm Password"
+                    secureTextEntry
+                    value={confirmPassword}
+                    onChangeText={setConfirmPassword}
+                />
+            </View>
+            <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
+                <Text style={styles.buttonText}>Save Password</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
-            <Text style={styles.buttonText}>Save Password</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.cancelButton} onPress={toggleInputs}>
-            <Text style={styles.buttonText}>Cancel</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.cancelButton} onPress={toggleInputs}>
+                <Text style={styles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
         </>
       )}
 
@@ -130,6 +131,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingVertical: 5,
     width: '80%',
+  },
+  inputContainer: {
+    width: '80%',
+    paddingHorizontal: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
