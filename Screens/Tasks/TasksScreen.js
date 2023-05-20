@@ -1,6 +1,6 @@
 import { View, Text, FlatList, TextInput, TouchableOpacity, Keyboard, Pressable, RefreshControl } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import { firebase } from '../../firebase';
+import { firebase, auth } from '../../firebase';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
 import MySnackBar from '../../Components/MySnackBar';
@@ -24,9 +24,10 @@ const TasksScreen = () => {
             querySnapshot => {
                 const tasks = []
                 querySnapshot.forEach((doc) => {
-                    const {taskName, createdAt, taskDescription} = doc.data()
+                    const {userId, taskName, createdAt, taskDescription} = doc.data()
                     tasks.push({
                         id: doc.id,
+                        userId,
                         taskName,
                         createdAt,
                         taskDescription,
@@ -76,6 +77,7 @@ const TasksScreen = () => {
             //get the timestamp
             const timestamp = firebase.firestore.FieldValue.serverTimestamp();
             const data = {
+                userId: auth.currentUser.uid,
                 taskName: newTaskName,
                 createdAt: timestamp,
                 taskDescription: '',

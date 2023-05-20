@@ -3,22 +3,38 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import AppStyles from '../../Styles/AppStyles';
 import SignUpPopup from './SignUpPopUp';
 import ResetPasswordPopup from './ResetPasswordPopUp'
+import { auth } from "../../firebase";
 
 const LoginScreen = () => {
   const [isSignUpVisible, setIsSignUpVisible] = useState(false);
   const [isResetPasswordVisible, setIsResetPasswordVisible] = useState(false);
 
+  const [errorMessage, setErrorMessage] = useState("");
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
     // Implement your login logic here
+    if (email !== "" && password !== "") {
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          //navigation.navigate("ToDo", { user: userCredential.user });
+          console.log('loged in successfully')
+          setErrorMessage("");
+          setEmail("");
+          setPassword("");
+        })
+        .catch((error) => {
+          setErrorMessage(error.message)
+        });
+    } else {
+      setErrorMessage("Please enter an email and password");
+    }
   };
 
   const handleSignUp = () => {
     // Implement your sign up logic here
     openSignUpPopup();
-    console.log('test')
   };
 
   const openSignUpPopup = () => {
@@ -58,6 +74,8 @@ const LoginScreen = () => {
           autoCapitalize='none'
         />
       </View>
+
+      <Text >{errorMessage}</Text>
 
       <TouchableOpacity style={AppStyles.loginButton} onPress={handleLogin}>
         <Text style={AppStyles.loginButtonText} >Login</Text>
