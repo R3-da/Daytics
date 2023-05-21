@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, Animated } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { auth } from '../../firebase';
+import { firebase } from "../../firebase";
+import "firebase/auth";
 import DeleteAccountPopUp from './DeleteAccountPopUp';
 
 const AccountScreen = ({ navigation }) => {
@@ -15,21 +16,21 @@ const AccountScreen = ({ navigation }) => {
 
     const handleChangePassword = () => {
         // Implement logic to change password
-        credential = auth.EmailAuthProvider.credential(
-            auth.currentUser.email,
+        credential = firebase.auth.EmailAuthProvider.credential(
+            firebase.auth().currentUser.email,
             currentPassword
         );
-        auth.currentUser.reauthenticateWithCredential(credential)
+        firebase.auth().currentUser.reauthenticateWithCredential(credential)
             .then(() => {
                 if (newPassword === confirmNewPassword) {
-                    auth.currentUser
+                    firebase.auth().currentUser
                     .updatePassword(newPassword)
                     .then(() => {
                         setNewPassword('');
                         setErrorMessage('');
                         setCurrentPassword('');
-                        setConfirmPassword('');
-                        setShowInputs(false);
+                        setConfirmNewPassword('');
+                        toggleInputs();
                     })
                     .catch((error) => {
                         setErrorMessage(error.message);
@@ -46,14 +47,14 @@ const AccountScreen = ({ navigation }) => {
     const handleLogOut = () => {
         // Implement logic to sign out the user
         navigation.goBack();
-        auth.signOut();
+        firebase.auth().signOut();
     };
 
     const validateAndSet = (value, valueToCompare, setValue) => {
         if (value !== valueToCompare) {
-        setValidationMessage("Passwords do not match.");
+        setMissMatchMessage("Passwords do not match.");
         } else {
-        setValidationMessage("");
+        setMissMatchMessage("");
         }
         setValue(value);
     };
@@ -61,11 +62,11 @@ const AccountScreen = ({ navigation }) => {
     const openDeleteAccountPopup = () => {
         setShowInputs(false);
         setIsDeleteAccountVisible(true);
-      };
-    
-      const closeDeleteAccountPopup = () => {
-        setIsDeleteAccountVisible(false);
-      };
+    };
+
+    const closeDeleteAccountPopup = () => {
+    setIsDeleteAccountVisible(false);
+    };
 
     const toggleInputs = () => {
         setShowInputs(!showInputs);
@@ -74,7 +75,7 @@ const AccountScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
         <Ionicons name="person-circle-outline" size={150} color="gray" style={styles.logo} />
-        <Text style={styles.title}>{auth.currentUser.email}</Text>
+        <Text style={styles.title}>{firebase.auth().currentUser.email}</Text>
 
         {!showInputs && (
             <TouchableOpacity style={styles.button} onPress={toggleInputs}>
