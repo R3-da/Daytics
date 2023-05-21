@@ -1,8 +1,7 @@
-import { View, Text, FlatList, TextInput, TouchableOpacity, Keyboard, Pressable, RefreshControl } from 'react-native';
+import { View, Text, FlatList, TextInput, TouchableOpacity, Keyboard, Pressable } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import { firebase, auth } from '../../firebase';
-import { FontAwesome } from '@expo/vector-icons'; 
-import { useNavigation } from '@react-navigation/native';
+import { FontAwesome } from '@expo/vector-icons';
 import MySnackBar from '../../Components/MySnackBar';
 import AppStyles from '../../Styles/AppStyles';
 

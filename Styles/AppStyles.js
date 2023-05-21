@@ -199,5 +199,60 @@ export default StyleSheet.create({
         flexDirection: 'row', // Arrange items horizontally
         alignItems: 'center', // Center items vertically
         justifyContent: 'center', // Push items to the start and end
-    }
+    },
+    accountScreenContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    accountTitle: {
+        fontWeight: 'bold',
+        fontSize: 15,
+        marginBottom: 20,
+    },
+    accountLogo: {
+        opacity: 0.5,
+    },
+    changePasswordButton: {
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 10,
+        backgroundColor: '#788eec',
+    },
+    cancelButton: {
+        backgroundColor: 'gray',
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 10,
+    },
+    logOutButton: {
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 10,
+        backgroundColor: '#788eec',
+    },
+    deleteButton: {
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 10,
+        backgroundColor: 'tomato',
+    },
+    accountButtonText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    changePasswordInput: {
+        borderBottomWidth: 1,
+        borderColor: '#CCCCCC',
+        marginBottom: 10,
+        paddingVertical: 5,
+        width: '80%',
+    },
+    changePasswordInputContainer: {
+        width: '80%',
+        paddingHorizontal: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });

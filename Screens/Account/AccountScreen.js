@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { firebase } from "../../firebase";
 import "firebase/auth";
 import DeleteAccountPopUp from './DeleteAccountPopUp';
+import AppStyles from '../../Styles/AppStyles';
 
 const AccountScreen = ({ navigation }) => {
     const [isDeleteAccountVisible, setIsDeleteAccountVisible] = useState(false);
@@ -73,116 +74,69 @@ const AccountScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
-        <Ionicons name="person-circle-outline" size={150} color="gray" style={styles.logo} />
-        <Text style={styles.title}>{firebase.auth().currentUser.email}</Text>
+        <View style={AppStyles.accountScreenContainer}>
+            <Ionicons name="person-circle-outline" size={150} color="gray" style={AppStyles.accountLogo} />
+            <Text style={AppStyles.accountTitle}>{firebase.auth().currentUser.email}</Text>
 
-        {!showInputs && (
-            <TouchableOpacity style={styles.button} onPress={toggleInputs}>
-            <Text style={styles.buttonText}>Change Password</Text>
+            {!showInputs && (
+                <TouchableOpacity style={AppStyles.changePasswordButton} onPress={toggleInputs}>
+                <Text style={AppStyles.accountButtonText}>Change Password</Text>
+                </TouchableOpacity>
+            )}
+
+            {showInputs && (
+                <>
+                <View style={AppStyles.changePasswordInputContainer}>
+                    <TextInput
+                    style={AppStyles.changePasswordInput}
+                    placeholder="Current Password"
+                    secureTextEntry
+                    value={currentPassword}
+                    onChangeText={(value) => 
+                        validateAndSet(value, confirmNewPassword, setCurrentPassword, '')
+                        }
+                    />
+                    <TextInput
+                    style={AppStyles.changePasswordInput}
+                    placeholder="New Password"
+                    secureTextEntry
+                    value={newPassword}
+                    onChangeText={(value) => 
+                        validateAndSet(value, confirmNewPassword, setNewPassword, '')
+                        }
+                    />
+                    <TextInput
+                    style={AppStyles.changePasswordInput}
+                    placeholder="Confirm Password"
+                    secureTextEntry
+                    value={confirmNewPassword}
+                    onChangeText={(value) => 
+                        validateAndSet(value, newPassword, setConfirmNewPassword, '')
+                        }
+                    />
+                </View>
+                <TouchableOpacity style={AppStyles.changePasswordButton} onPress={handleChangePassword}>
+                    <Text style={AppStyles.accountButtonText}>Save Password</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={AppStyles.cancelButton} onPress={toggleInputs}>
+                    <Text style={AppStyles.accountButtonText}>Cancel</Text>
+                </TouchableOpacity>
+                </>
+            )}
+
+            <TouchableOpacity style={AppStyles.logOutButton} onPress={handleLogOut}>
+                <Text style={AppStyles.accountButtonText}>Log Out</Text>
             </TouchableOpacity>
-        )}
 
-        {showInputs && (
-            <>
-            <View style={styles.inputContainer}>
-                <Text>{}</Text>
-                <TextInput
-                style={styles.input}
-                placeholder="Current Password"
-                secureTextEntry
-                value={currentPassword}
-                onChangeText={(value) => 
-                    validateAndSet(value, confirmNewPassword, setCurrentPassword, '')
-                    }
-                />
-                <TextInput
-                style={styles.input}
-                placeholder="New Password"
-                secureTextEntry
-                value={newPassword}
-                onChangeText={(value) => 
-                    validateAndSet(value, confirmNewPassword, setNewPassword, '')
-                    }
-                />
-                <TextInput
-                style={styles.input}
-                placeholder="Confirm Password"
-                secureTextEntry
-                value={confirmNewPassword}
-                onChangeText={(value) => 
-                    validateAndSet(value, newPassword, setConfirmNewPassword, '')
-                    }
-                />
-            </View>
-            <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
-                <Text style={styles.buttonText}>Save Password</Text>
+            <TouchableOpacity style={AppStyles.deleteButton} onPress={openDeleteAccountPopup}>
+                <Text style={AppStyles.accountButtonText}>Delete Account</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.cancelButton} onPress={toggleInputs}>
-                <Text style={styles.buttonText}>Cancel</Text>
-            </TouchableOpacity>
-            </>
-        )}
-
-        <TouchableOpacity style={styles.button} onPress={handleLogOut}>
-            <Text style={styles.buttonText}>Log Out</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.button} onPress={openDeleteAccountPopup}>
-            <Text style={styles.buttonText}>Delete Account</Text>
-        </TouchableOpacity>
-
-        <DeleteAccountPopUp navigation={navigation} isVisible={isDeleteAccountVisible} onClose={closeDeleteAccountPopup} />
-        
+            <DeleteAccountPopUp navigation={navigation} isVisible={isDeleteAccountVisible} onClose={closeDeleteAccountPopup} />
+            
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 15,
-    marginBottom: 20,
-  },
-  logo: {
-    opacity: 0.5,
-  },
-  button: {
-    backgroundColor: '#007AFF',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  cancelButton: {
-    backgroundColor: 'gray',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  input: {
-    borderBottomWidth: 1,
-    borderColor: '#CCCCCC',
-    marginBottom: 10,
-    paddingVertical: 5,
-    width: '80%',
-  },
-  inputContainer: {
-    width: '80%',
-    paddingHorizontal: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default AccountScreen;
