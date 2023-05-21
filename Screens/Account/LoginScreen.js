@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import AppStyles from '../../Styles/AppStyles';
-import SignUpPopup from './SignUpPopUp';
-import ResetPasswordPopup from './ResetPasswordPopUp'
+import SignUpPopUp from './SignUpPopUp';
+import ResetPasswordPopUp from './ResetPasswordPopUp'
 import { auth } from "../../firebase";
 import { useNavigation } from '@react-navigation/native';
 
@@ -32,22 +32,22 @@ const LoginScreen = () => {
     }
   };
 
-  const handleSignUp = () => {
-    // Implement your sign up logic here
-    openSignUpPopup();
-  };
-
-  const openSignUpPopup = () => {
+  const openSignUpPopUp = () => {
     setIsSignUpVisible(true);
   };
 
-  const closeSignUpPopup = () => {
+  const closeSignUpPopUp = () => {
     setIsSignUpVisible(false);
   };
 
-  const handleForgotPassword = () => {
+  const openResetPasswordPopUp = () => {
     // Implement your forgot password logic here
     setIsResetPasswordVisible(true)
+  };
+
+  const closeResetPasswordPopUp = () => {
+    // Implement your forgot password logic here
+    setIsResetPasswordVisible(false)
   };
 
   return (
@@ -81,15 +81,17 @@ const LoginScreen = () => {
         <Text style={AppStyles.loginButtonText} >Login</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={AppStyles.signUpButton} onPress={handleSignUp}>
+      <TouchableOpacity style={AppStyles.signUpButton} onPress={openSignUpPopUp}>
         <Text style={AppStyles.signUpButtonText}>Sign Up</Text>
       </TouchableOpacity>
       
-      <SignUpPopup isVisible={isSignUpVisible} onClose={closeSignUpPopup} />
+      <SignUpPopUp isVisible={isSignUpVisible} onClose={closeSignUpPopUp} />
 
-      <TouchableOpacity style={AppStyles.forgotPasswordButton} onPress={handleForgotPassword}>
+      <TouchableOpacity style={AppStyles.forgotPasswordButton} onPress={openResetPasswordPopUp}>
         <Text style={AppStyles.forgotPasswordButtonText}>Forgot Password?</Text>
       </TouchableOpacity>
+
+      <ResetPasswordPopUp navigation={navigation} isVisible={isResetPasswordVisible} onClose={closeResetPasswordPopUp} />
     </View>
   );
 };
