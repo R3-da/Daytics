@@ -47,8 +47,8 @@ const AccountScreen = ({ navigation }) => {
 
     const handleLogOut = () => {
         // Implement logic to sign out the user
-        navigation.goBack();
         firebase.auth().signOut();
+        navigation.popToTop();
     };
 
     const validateAndSet = (value, valueToCompare, setValue) => {

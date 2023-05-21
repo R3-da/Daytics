@@ -1,6 +1,7 @@
 import { View, Text, FlatList, TextInput, TouchableOpacity, Keyboard, Pressable } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import { firebase, auth } from '../../firebase';
+import { firebase } from "../../firebase";
+import "firebase/auth";
 import { FontAwesome } from '@expo/vector-icons';
 import MySnackBar from '../../Components/MySnackBar';
 import AppStyles from '../../Styles/AppStyles';
@@ -12,29 +13,55 @@ const TasksScreen = ({navigation}) => {
     const [refreshing, setRefreshing] = useState(false); // added
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [snackBarMessage, setSnackBarMessage] = useState('');
-    const [undoData, setUndoData] = useState('');
+    const [user, setUser] = useState(null); // Add user state
 
-    //fetch or read the data from firestore
     useEffect(() => {
-        tasks_Db_Ref
-        .where("userId", "==", auth.currentUser.uid)
-        .orderBy('createdAt', 'desc')
-        .onSnapshot((querySnapshot) => {
-            const tasks = []
+        // Add onAuthStateChanged listener
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            // User is logged in
+            setUser(user);
+        } else {
+            // User is logged out
+            setUser(null);
+            setTasks([]); // Clear tasks when user logs out
+        }
+        });
+
+        return () => {
+        // Unsubscribe the listener when the component is unmounted
+        unsubscribe();
+        };
+    }, []);
+
+    useEffect(() => {
+        if (user) {
+        // Fetch data from Firestore when the user is logged in or the authentication state changes
+        const unsubscribe = tasks_Db_Ref
+            .where("userId", "==", user.uid)
+            .orderBy('createdAt', 'desc')
+            .onSnapshot((querySnapshot) => {
+            const tasks = [];
             querySnapshot.forEach((doc) => {
-                const {userId, taskName, createdAt, taskDescription} = doc.data()
+                const { userId, taskName, createdAt, taskDescription } = doc.data();
                 tasks.push({
-                    id: doc.id,
-                    userId,
-                    taskName,
-                    createdAt,
-                    taskDescription,
-                })
-            })
-            setTasks(tasks)
+                id: doc.id,
+                userId,
+                taskName,
+                createdAt,
+                taskDescription,
+                });
+            });
+            setTasks(tasks);
             setRefreshing(false);
-        })
-    }, [])
+            });
+
+        return () => {
+            // Unsubscribe the listener when the component is unmounted or the authentication state changes
+            unsubscribe();
+        };
+        }
+    }, [user]); // Trigger the effect when the user state changes
 
     // delete a todo from firestore db
     const deleteTask = (task) => {
