@@ -6,12 +6,11 @@ import { useNavigation } from '@react-navigation/native';
 import MySnackBar from '../../Components/MySnackBar';
 import AppStyles from '../../Styles/AppStyles';
 
-const TasksScreen = () => {
+const TasksScreen = ({navigation}) => {
     const [tasks, setTasks] = useState([]);
     const tasks_Db_Ref = firebase.firestore().collection('tasks_db');
     const [newTaskName, setNewTaskName] = useState('');
     const [refreshing, setRefreshing] = useState(false); // added
-    const navigation = useNavigation();
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [snackBarMessage, setSnackBarMessage] = useState('');
     const [undoData, setUndoData] = useState('');
@@ -21,23 +20,21 @@ const TasksScreen = () => {
         tasks_Db_Ref
         .where("userId", "==", auth.currentUser.uid)
         .orderBy('createdAt', 'desc')
-        .onSnapshot(
-            querySnapshot => {
-                const tasks = []
-                querySnapshot.forEach((doc) => {
-                    const {userId, taskName, createdAt, taskDescription} = doc.data()
-                    tasks.push({
-                        id: doc.id,
-                        userId,
-                        taskName,
-                        createdAt,
-                        taskDescription,
-                    })
+        .onSnapshot((querySnapshot) => {
+            const tasks = []
+            querySnapshot.forEach((doc) => {
+                const {userId, taskName, createdAt, taskDescription} = doc.data()
+                tasks.push({
+                    id: doc.id,
+                    userId,
+                    taskName,
+                    createdAt,
+                    taskDescription,
                 })
-                setTasks(tasks)
-                setRefreshing(false);
-            }
-        )
+            })
+            setTasks(tasks)
+            setRefreshing(false);
+        })
     }, [])
 
     // delete a todo from firestore db
