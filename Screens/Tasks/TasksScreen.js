@@ -13,6 +13,7 @@ const TasksScreen = ({navigation}) => {
     const [refreshing, setRefreshing] = useState(false); // added
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [snackBarMessage, setSnackBarMessage] = useState('');
+    const [undoData, setUndoData] = useState('');
     const [user, setUser] = useState(null); // Add user state
 
     useEffect(() => {
@@ -101,7 +102,7 @@ const TasksScreen = ({navigation}) => {
             //get the timestamp
             const timestamp = firebase.firestore.FieldValue.serverTimestamp();
             const data = {
-                userId: auth.currentUser.uid,
+                userId: user.uid,
                 taskName: newTaskName,
                 createdAt: timestamp,
                 taskDescription: '',
