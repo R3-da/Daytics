@@ -30,19 +30,37 @@ export default StyleSheet.create({
     },
     taskInputContainer:{
         flexDirection:'row',
-        height:75,
         marginHorizontal:15,
         marginTop:15,
-        marginBottom:0
+        marginBottom:5,
+    },
+    taskInputTextContainer: {
+        backgroundColor: 'white',
+        flex:1,
+        flexDirection:'row',
+        borderRadius:5,
+        paddingRight:5,
+        marginRight:5,
     },
     taskInputText:{
         height: 48,
         borderRadius:5,
         overflow:'hidden',
-        backgroundColor:'white',
         paddingLeft:16,
         flex:1,
         marginRight:5,
+        backgroundColor: 'white'
+    },
+    addDateButton: {
+        height:47,
+        backgroundColor:'transparent',
+        width:30,
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    addDateIcon: {
+        fontSize:20,
+
     },
     addTaskButton: {
         height:47,

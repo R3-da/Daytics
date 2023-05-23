@@ -21,12 +21,13 @@ const TasksScreen = ({ navigation }) => {
     db.transaction(tx => {
       tx.executeSql(
         `CREATE TABLE IF NOT EXISTS tasks (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          taskId INTEGER PRIMARY KEY AUTOINCREMENT,
           userId TEXT NOT NULL,
-          taskName TEXT NOT NULL,
-          createdAt TEXT NOT NULL,
+          taskName TEXT,
+          taskCreatedAt TEXT NOT NULL,
+          taskDueDate TEXT,
           taskDescription TEXT,
-          isDone INTEGER NOT NULL DEFAULT 0
+          taskIsDone INTEGER NOT NULL DEFAULT 0
         );`
       );
     });
@@ -35,7 +36,7 @@ const TasksScreen = ({ navigation }) => {
   const fetchTasks = () => {
     db.transaction(tx => {
       tx.executeSql(
-        `SELECT * FROM tasks ORDER BY isDone ASC, createdAt DESC;`,
+        `SELECT * FROM tasks ORDER BY taskIsDone ASC, taskCreatedAt DESC;`,
         [],
         (_, { rows }) => {
           const tasks = rows._array;
@@ -56,8 +57,8 @@ const TasksScreen = ({ navigation }) => {
   const deleteTask = task => {
     db.transaction(tx => {
       tx.executeSql(
-        `DELETE FROM tasks WHERE id = ?;`,
-        [task.id],
+        `DELETE FROM tasks WHERE taskId = ?;`,
+        [task.taskId],
         () => {
           setUndoData(task);
           setSnackBarMessage('Item Deleted');
@@ -74,14 +75,14 @@ const TasksScreen = ({ navigation }) => {
   const undoDeleteTask = () => {
     db.transaction(tx => {
       tx.executeSql(
-        `INSERT INTO tasks (userId, taskName, createdAt, taskDescription, isDone)
+        `INSERT INTO tasks (userId, taskName, taskCreatedAt, taskDescription, taskIsDone)
         VALUES (?, ?, ?, ?, ?);`,
         [
           undoData.userId,
           undoData.taskName,
-          undoData.createdAt,
+          undoData.taskCreatedAt,
           undoData.taskDescription,
-          undoData.isDone
+          undoData.taskIsDone
         ],
         () => {
           setUndoData('');
@@ -102,22 +103,22 @@ const TasksScreen = ({ navigation }) => {
       const data = {
         userId: user ? user.uid : '',
         taskName: newTaskName,
-        createdAt: timestamp,
+        taskCreatedAt: timestamp,
         taskDescription: '',
-        isDone: 0
+        taskIsDone: 0
       };
       setNewTaskName('');
       Keyboard.dismiss();
       db.transaction(tx => {
         tx.executeSql(
-          `INSERT INTO tasks (userId, taskName, createdAt, taskDescription, isDone)
+          `INSERT INTO tasks (userId, taskName, taskCreatedAt, taskDescription, taskIsDone)
           VALUES (?, ?, ?, ?, ?);`,
           [
             data.userId,
             data.taskName,
-            data.createdAt,
+            data.taskCreatedAt,
             data.taskDescription,
-            data.isDone
+            data.taskIsDone
           ],
           () => {
             fetchTasks();
@@ -133,8 +134,8 @@ const TasksScreen = ({ navigation }) => {
   const handleTaskCompletion = (task, newValue) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `UPDATE tasks SET isDone = ? WHERE id = ?;`,
-        [newValue ? 1 : 0, task.id],
+        `UPDATE tasks SET taskIsDone = ? WHERE taskId = ?;`,
+        [newValue ? 1 : 0, task.taskId],
         () => {
           fetchTasks();
         },
@@ -148,15 +149,29 @@ const TasksScreen = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={AppStyles.taskInputContainer}>
-        <TextInput
-          style={AppStyles.taskInputText}
-          placeholder="Add A New Todo"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={setNewTaskName}
-          value={newTaskName}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
+        <View style={AppStyles.taskInputTextContainer}>
+            <TextInput
+            style={AppStyles.taskInputText}
+            placeholder="Add A New Todo"
+            placeholderTextColor="#aaaaaa"
+            onChangeText={setNewTaskName}
+            value={newTaskName}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+            />
+            <TouchableOpacity
+                style={AppStyles.addDateButton}
+                onPress={() => {
+                    deleteTask(item);
+                }}
+            >
+                <FontAwesome
+                    name="calendar"
+                    color="gray"
+                    style={AppStyles.addDateIcon}
+                />
+            </TouchableOpacity>
+        </View>
         <TouchableOpacity style={AppStyles.addTaskButton} onPress={addTask}>
           <Text style={AppStyles.addTaskButtonText}>Add</Text>
         </TouchableOpacity>
@@ -193,7 +208,7 @@ const TasksScreen = ({ navigation }) => {
                 <Text
                   style={[
                     AppStyles.taskNameText,
-                    item.isDone ? AppStyles.taskNameTextDone : null,
+                    item.taskIsDone ? AppStyles.taskNameTextDone : null,
                   ]}
                   numberOfLines={1}
                 >
@@ -201,7 +216,7 @@ const TasksScreen = ({ navigation }) => {
                 </Text>
               </View>
               <CheckBox
-                value={Boolean(item.isDone)}
+                value={Boolean(item.taskIsDone)}
                 onValueChange={(newValue) =>
                   handleTaskCompletion(item, newValue)
                 }
@@ -209,7 +224,7 @@ const TasksScreen = ({ navigation }) => {
             </Pressable>
           </View>
         )}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.taskId.toString()}
       />
       <MySnackBar
         visible={snackBarVisible}
