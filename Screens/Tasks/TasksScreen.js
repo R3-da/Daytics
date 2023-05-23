@@ -5,7 +5,8 @@ import MySnackBar from '../../Components/MySnackBar';
 import AppStyles from '../../Styles/AppStyles';
 import * as SQLite from 'expo-sqlite';
 import CheckBox from 'expo-checkbox';
-import { Calendar } from 'react-native-calendars';
+import MyCalendar from '../../Components/MyCalendar';
+
 
 const db = SQLite.openDatabase('tasks.db');
 
@@ -159,15 +160,7 @@ const TasksScreen = ({ navigation }) => {
     setShowCalendar(!showCalendar);
   };
   
-  const calendarTheme = {
-    // Customize the calendar theme properties here
-    todayTextColor: '#788eec',
-    selectedDayBackgroundColor: '#788eec',
-    monthTextColor: '#788eec',
-    //dayTextColor: 'red',
-    arrowColor: '#788eec',
-    // ...add more theme properties as needed
-  };
+  
 
   return (
     <View style={{ flex: 1 }}>
@@ -188,33 +181,7 @@ const TasksScreen = ({ navigation }) => {
                     toggleShowCalendar();
                 }}
             >
-            <Modal
-            visible={showCalendar}
-            animationType="fade"
-            transparent={true}
-            onRequestClose={() => setShowCalendar(false)}
-            >
-                <View style={AppStyles.modalContainer}>
-                    <View style={AppStyles.calendarContainer}>
-                        <Calendar
-                            hideDayNames = {true}
-                            markedDates={{
-                                [selectedDueDate]: { selected: true },
-                            }}
-                            current= {selectedDueDate}
-                            onDayPress={(day) => {
-                                setSelectedDueDate(day.dateString);
-                                setIsDueDateSelected(true);
-                                setShowCalendar(false);
-                            }}
-                            onCancel={() => {
-                                setShowCalendar(false);
-                            }}
-                            theme={calendarTheme}
-                        />
-                    </View>
-                </View>
-            </Modal>
+            
             {isDueDateSelected ? (
               <Text style={AppStyles.selectedDueDateText}>{selectedDueDate}</Text>
             ) : (
@@ -226,6 +193,7 @@ const TasksScreen = ({ navigation }) => {
             )}
           </TouchableOpacity>
         </View>
+        
         <TouchableOpacity style={AppStyles.addTaskButton} onPress={addTask}>
           <Text style={AppStyles.addTaskButtonText}>Add</Text>
         </TouchableOpacity>
@@ -296,7 +264,12 @@ const TasksScreen = ({ navigation }) => {
         )}
         keyExtractor={(item) => item.taskId.toString()}
       />
-      <MySnackBar
+      
+        {showCalendar && 
+                <MyCalendar/>
+        }
+        
+        <MySnackBar
         visible={snackBarVisible}
         onDismiss={() => {
           setSnackBarVisible(false);

@@ -297,10 +297,9 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     modalContainer: {
-
+        alignItems: 'center',
     },
     calendarContainer: {
-        width: 300, // Set the desired width of the calendar
-        height: 400, // Set the desired height of the calendar
+        
     },
 });
