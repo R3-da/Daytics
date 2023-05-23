@@ -22,7 +22,7 @@ export default StyleSheet.create({
         fontWeight:'bold',
         fontSize:18
     },
-    taskNameText:{
+    taskNameTextDone:{
         fontWeight:'bold',
         fontSize:18,
         textDecorationLine: 'line-through',

@@ -130,6 +130,21 @@ const TasksScreen = ({ navigation }) => {
     }
   };
 
+  const handleTaskCompletion = (task, newValue) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `UPDATE tasks SET isDone = ? WHERE id = ?;`,
+        [newValue ? 1 : 0, task.id],
+        () => {
+          fetchTasks();
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    });
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={AppStyles.taskInputContainer}>
@@ -178,7 +193,7 @@ const TasksScreen = ({ navigation }) => {
                     <Text 
                         style={[
                             AppStyles.taskNameText,
-                            item.isDone && AppStyles.taskNameTextCompleted,
+                            item.isDone ? AppStyles.taskNameTextDone : null,,
                         ]} 
                         numberOfLines={1}
                     >
@@ -186,7 +201,8 @@ const TasksScreen = ({ navigation }) => {
                     </Text>
                 </View>
                 <CheckBox
-                    value={false}
+                    value={Boolean(item.isDone)}
+                    onValueChange={(newValue) => handleTaskCompletion(item, newValue)}
                 />
             </Pressable>
           </View>
