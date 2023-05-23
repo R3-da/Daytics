@@ -115,6 +115,7 @@ const TasksScreen = ({ navigation }) => {
       setNewTaskName('');
       setSelectedDueDate('');
       setShowCalendar(false);
+      setIsDueDateSelected(false);
       Keyboard.dismiss();
       db.transaction(tx => {
         tx.executeSql(
@@ -154,6 +155,10 @@ const TasksScreen = ({ navigation }) => {
     });
   };
 
+  const toggleShowCalendar = () => {
+    setShowCalendar(!showCalendar);
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={AppStyles.taskInputContainer}>
@@ -170,7 +175,7 @@ const TasksScreen = ({ navigation }) => {
           <TouchableOpacity
             style={AppStyles.addDateButton}
             onPress={() => {
-              setShowCalendar(true);
+                toggleShowCalendar();
             }}
           >
             {isDueDateSelected ? (
