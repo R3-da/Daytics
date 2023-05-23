@@ -4,6 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import MySnackBar from '../../Components/MySnackBar';
 import AppStyles from '../../Styles/AppStyles';
 import * as SQLite from 'expo-sqlite';
+import CheckBox from 'expo-checkbox';
 
 const db = SQLite.openDatabase('tasks.db');
 
@@ -24,7 +25,8 @@ const TasksScreen = ({ navigation }) => {
           userId TEXT NOT NULL,
           taskName TEXT NOT NULL,
           createdAt TEXT NOT NULL,
-          taskDescription TEXT
+          taskDescription TEXT,
+          isDone INTEGER NOT NULL DEFAULT 0
         );`
       );
     });
@@ -72,13 +74,14 @@ const TasksScreen = ({ navigation }) => {
   const undoDeleteTask = () => {
     db.transaction(tx => {
       tx.executeSql(
-        `INSERT INTO tasks (userId, taskName, createdAt, taskDescription)
-        VALUES (?, ?, ?, ?);`,
+        `INSERT INTO tasks (userId, taskName, createdAt, taskDescription, isDone)
+        VALUES (?, ?, ?, ?, ?);`,
         [
           undoData.userId,
           undoData.taskName,
           undoData.createdAt,
-          undoData.taskDescription
+          undoData.taskDescription,
+          undoData.isDone
         ],
         () => {
           setUndoData('');
@@ -100,19 +103,21 @@ const TasksScreen = ({ navigation }) => {
         userId: user ? user.uid : '',
         taskName: newTaskName,
         createdAt: timestamp,
-        taskDescription: ''
+        taskDescription: '',
+        isDone: 0
       };
       setNewTaskName('');
       Keyboard.dismiss();
       db.transaction(tx => {
         tx.executeSql(
-          `INSERT INTO tasks (userId, taskName, createdAt, taskDescription)
-          VALUES (?, ?, ?, ?);`,
+          `INSERT INTO tasks (userId, taskName, createdAt, taskDescription, isDone)
+          VALUES (?, ?, ?, ?, ?);`,
           [
             data.userId,
             data.taskName,
             data.createdAt,
-            data.taskDescription
+            data.taskDescription,
+            data.isDone
           ],
           () => {
             fetchTasks();
@@ -157,23 +162,32 @@ const TasksScreen = ({ navigation }) => {
                 navigation.navigate('TaskDetailScreen', { item })
               }
             >
-              <TouchableOpacity
-                style={AppStyles.deleteTaskButton}
-                onPress={() => {
-                  deleteTask(item);
-                }}
-              >
-                <FontAwesome
-                  name="trash-o"
-                  color="tomato"
-                  style={AppStyles.deleteTaskIcon}
+                <TouchableOpacity
+                    style={AppStyles.deleteTaskButton}
+                    onPress={() => {
+                    deleteTask(item);
+                    }}
+                >
+                    <FontAwesome
+                        name="trash-o"
+                        color="tomato"
+                        style={AppStyles.deleteTaskIcon}
+                    />
+                </TouchableOpacity>
+                <View style={AppStyles.taskInnerContainer}>
+                    <Text 
+                        style={[
+                            AppStyles.taskNameText,
+                            item.isDone && AppStyles.taskNameTextCompleted,
+                        ]} 
+                        numberOfLines={1}
+                    >
+                        {item.taskName}
+                    </Text>
+                </View>
+                <CheckBox
+                    value={false}
                 />
-              </TouchableOpacity>
-              <View style={AppStyles.taskInnerContainer}>
-                <Text style={AppStyles.taskNameText} numberOfLines={1}>
-                  {item.taskName}
-                </Text>
-              </View>
             </Pressable>
           </View>
         )}

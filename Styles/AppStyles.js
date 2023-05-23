@@ -22,6 +22,12 @@ export default StyleSheet.create({
         fontWeight:'bold',
         fontSize:18
     },
+    taskNameText:{
+        fontWeight:'bold',
+        fontSize:18,
+        textDecorationLine: 'line-through',
+        textDecorationStyle: 'solid',
+    },
     taskInputContainer:{
         flexDirection:'row',
         height:75,
