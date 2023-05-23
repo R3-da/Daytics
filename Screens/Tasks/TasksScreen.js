@@ -3,12 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import MySnackBar from '../../Components/MySnackBar';
 import AppStyles from '../../Styles/AppStyles';
-import * as SQLite from 'expo-sqlite';
+
 import CheckBox from 'expo-checkbox';
 import MyCalendar from '../../Components/MyCalendar';
-
-
-const db = SQLite.openDatabase('tasks.db');
+import { db } from '../../database/Dao';
 
 const TasksScreen = ({ navigation }) => {
   const [tasks, setTasks] = useState([]);
@@ -21,22 +19,7 @@ const TasksScreen = ({ navigation }) => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [isDueDateSelected, setIsDueDateSelected] = useState(false);
   const [selectedDueDate, setSelectedDueDate] = useState('');
-
-  useEffect(() => {
-    db.transaction(tx => {
-      tx.executeSql(
-        `CREATE TABLE IF NOT EXISTS tasks (
-          taskId INTEGER PRIMARY KEY AUTOINCREMENT,
-          userId TEXT NOT NULL,
-          taskName TEXT,
-          taskCreatedAt TEXT NOT NULL,
-          taskDueDate TEXT,
-          taskDescription TEXT,
-          taskIsDone INTEGER NOT NULL DEFAULT 0
-        );`
-      );
-    });
-  }, []);
+  
 
   const fetchTasks = () => {
     db.transaction(tx => {
@@ -258,6 +241,7 @@ const TasksScreen = ({ navigation }) => {
                 onValueChange={(newValue) =>
                   handleTaskCompletion(item, newValue)
                 }
+                color={Boolean(item.taskIsDone)? '#4CAF50': undefined}
               />
             </Pressable>
           </View>
@@ -265,15 +249,13 @@ const TasksScreen = ({ navigation }) => {
         keyExtractor={(item) => item.taskId.toString()}
       />
       
-        {showCalendar && 
-                <MyCalendar 
-                    selectedDueDate = {selectedDueDate}
-                    setSelectedDueDate = {setSelectedDueDate}
-                    setIsDueDateSelected = {setIsDueDateSelected}
-                    setShowCalendar = {setShowCalendar}
-                    showCalendar = {showCalendar}
-                />
-        }
+        <MyCalendar
+            selectedDueDate = {selectedDueDate}
+            setSelectedDueDate = {setSelectedDueDate}
+            setIsDueDateSelected = {setIsDueDateSelected}
+            setShowCalendar = {setShowCalendar}
+            showCalendar = {showCalendar}
+        />
         
         <MySnackBar
         visible={snackBarVisible}
