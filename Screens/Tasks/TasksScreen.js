@@ -19,6 +19,8 @@ const TasksScreen = ({ navigation }) => {
   const [user, setUser] = useState(null);
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
+  const [dueDateSelected, setDueDateSelected] = useState(false);
+  const [selectedDueDate, setSelectedDueDate] = useState('');
 
   useEffect(() => {
     db.transaction(tx => {
@@ -172,11 +174,15 @@ const TasksScreen = ({ navigation }) => {
               setShowCalendar(true);
             }}
           >
-            <FontAwesome
-              name="calendar"
-              color="gray"
-              style={AppStyles.addDateIcon}
-            />
+            {dueDateSelected ? (
+              <Text style={AppStyles.selectedDueDateText}>{selectedDueDate}</Text>
+            ) : (
+              <FontAwesome
+                name="calendar"
+                color="gray"
+                style={AppStyles.addDateIcon}
+              />
+            )}
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={AppStyles.addTaskButton} onPress={addTask}>
@@ -186,7 +192,8 @@ const TasksScreen = ({ navigation }) => {
       {showCalendar && (
         <Calendar
           onDayPress={(day) => {
-            setSelectedDate(day.dateString);
+            setSelectedDueDate(day.dateString);
+            setDueDateSelected(true);
             setShowCalendar(false);
           }}
           onCancel={() => {
