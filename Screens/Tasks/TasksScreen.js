@@ -18,8 +18,7 @@ const TasksScreen = ({ navigation }) => {
   const [undoData, setUndoData] = useState('');
   const [user, setUser] = useState(null);
   const [showCalendar, setShowCalendar] = useState(false);
-  const [selectedDate, setSelectedDate] = useState('');
-  const [dueDateSelected, setDueDateSelected] = useState(false);
+  const [isDueDateSelected, setIsDueDateSelected] = useState(false);
   const [selectedDueDate, setSelectedDueDate] = useState('');
 
   useEffect(() => {
@@ -109,12 +108,12 @@ const TasksScreen = ({ navigation }) => {
         userId: user ? user.uid : '',
         taskName: newTaskName,
         taskCreatedAt: timestamp,
-        taskDueDate: selectedDate,
+        taskDueDate: selectedDueDate,
         taskDescription: '',
         taskIsDone: 0
       };
       setNewTaskName('');
-      setSelectedDate('');
+      setSelectedDueDate('');
       setShowCalendar(false);
       Keyboard.dismiss();
       db.transaction(tx => {
@@ -174,7 +173,7 @@ const TasksScreen = ({ navigation }) => {
               setShowCalendar(true);
             }}
           >
-            {dueDateSelected ? (
+            {isDueDateSelected ? (
               <Text style={AppStyles.selectedDueDateText}>{selectedDueDate}</Text>
             ) : (
               <FontAwesome
@@ -193,7 +192,7 @@ const TasksScreen = ({ navigation }) => {
         <Calendar
           onDayPress={(day) => {
             setSelectedDueDate(day.dateString);
-            setDueDateSelected(true);
+            setIsDueDateSelected(true);
             setShowCalendar(false);
           }}
           onCancel={() => {
