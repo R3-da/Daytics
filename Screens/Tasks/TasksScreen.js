@@ -35,7 +35,7 @@ const TasksScreen = ({ navigation }) => {
   const fetchTasks = () => {
     db.transaction(tx => {
       tx.executeSql(
-        `SELECT * FROM tasks ORDER BY createdAt DESC;`,
+        `SELECT * FROM tasks ORDER BY isDone ASC, createdAt DESC;`,
         [],
         (_, { rows }) => {
           const tasks = rows._array;
@@ -177,36 +177,39 @@ const TasksScreen = ({ navigation }) => {
                 navigation.navigate('TaskDetailScreen', { item })
               }
             >
-                <TouchableOpacity
-                    style={AppStyles.deleteTaskButton}
-                    onPress={() => {
-                    deleteTask(item);
-                    }}
-                >
-                    <FontAwesome
-                        name="trash-o"
-                        color="tomato"
-                        style={AppStyles.deleteTaskIcon}
-                    />
-                </TouchableOpacity>
-                <View style={AppStyles.taskInnerContainer}>
-                    <Text 
-                        style={[
-                            AppStyles.taskNameText,
-                            item.isDone ? AppStyles.taskNameTextDone : null,,
-                        ]} 
-                        numberOfLines={1}
-                    >
-                        {item.taskName}
-                    </Text>
-                </View>
-                <CheckBox
-                    value={Boolean(item.isDone)}
-                    onValueChange={(newValue) => handleTaskCompletion(item, newValue)}
+              <TouchableOpacity
+                style={AppStyles.deleteTaskButton}
+                onPress={() => {
+                  deleteTask(item);
+                }}
+              >
+                <FontAwesome
+                  name="trash-o"
+                  color="tomato"
+                  style={AppStyles.deleteTaskIcon}
                 />
+              </TouchableOpacity>
+              <View style={AppStyles.taskInnerContainer}>
+                <Text
+                  style={[
+                    AppStyles.taskNameText,
+                    item.isDone ? AppStyles.taskNameTextDone : null,
+                  ]}
+                  numberOfLines={1}
+                >
+                  {item.taskName}
+                </Text>
+              </View>
+              <CheckBox
+                value={Boolean(item.isDone)}
+                onValueChange={(newValue) =>
+                  handleTaskCompletion(item, newValue)
+                }
+              />
             </Pressable>
           </View>
         )}
+        keyExtractor={(item) => item.id.toString()}
       />
       <MySnackBar
         visible={snackBarVisible}
