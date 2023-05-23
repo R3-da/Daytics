@@ -51,6 +51,10 @@ export default StyleSheet.create({
         marginRight:5,
         backgroundColor: 'white'
     },
+    selectedDueDateText: {
+        fontSize:10,
+        color: '#788eec',
+    },
     addDateButton: {
         height:47,
         backgroundColor:'transparent',
@@ -60,7 +64,6 @@ export default StyleSheet.create({
     },
     addDateIcon: {
         fontSize:20,
-
     },
     addTaskButton: {
         height:47,
@@ -83,6 +86,20 @@ export default StyleSheet.create({
     },
     deleteTaskIcon: {
         fontSize:20
+    },
+    taskDateButton: {
+        height:47,
+        backgroundColor:'transparent',
+        width:30,
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    taskDateText: {
+        fontSize:10,
+        color: '#788eec',
+    },
+    taskCheckBox: {
+        marginHorizontal:5,
     },
     container: {
         flex: 1
@@ -278,5 +295,11 @@ export default StyleSheet.create({
         paddingHorizontal: 30,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    modalContainer: {
+
+    },
+    calendarContainer: {
+
     },
 });

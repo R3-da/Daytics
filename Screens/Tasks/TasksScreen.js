@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TextInput, TouchableOpacity, Keyboard, Pressable } from 'react-native';
+import { View, Text, FlatList, TextInput, TouchableOpacity, Keyboard, Pressable, Modal } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import MySnackBar from '../../Components/MySnackBar';
@@ -193,18 +193,31 @@ const TasksScreen = ({ navigation }) => {
           <Text style={AppStyles.addTaskButtonText}>Add</Text>
         </TouchableOpacity>
       </View>
-      {showCalendar && (
-        <Calendar
-          onDayPress={(day) => {
-            setSelectedDueDate(day.dateString);
-            setIsDueDateSelected(true);
-            setShowCalendar(false);
-          }}
-          onCancel={() => {
-            setShowCalendar(false);
-          }}
-        />
-      )}
+        <Modal
+            visible={showCalendar}
+            animationType="fade"
+            transparent={true}
+            onRequestClose={() => setShowCalendar(false)}
+        >
+            <View style={AppStyles.modalContainer}>
+                <View style={AppStyles.calendarContainer}>
+                    <Calendar
+                        markedDates={{
+                            [selectedDueDate]: { selected: true },
+                        }}
+                        current= {selectedDueDate}
+                        onDayPress={(day) => {
+                            setSelectedDueDate(day.dateString);
+                            setIsDueDateSelected(true);
+                            setShowCalendar(false);
+                        }}
+                        onCancel={() => {
+                            setShowCalendar(false);
+                        }}
+                    />
+                </View>
+            </View>
+        </Modal>
       <FlatList
         data={tasks}
         numColumns={1}
@@ -241,17 +254,25 @@ const TasksScreen = ({ navigation }) => {
                 >
                   {item.taskName}
                 </Text>
-                <Text
-                  style={[
-                    AppStyles.taskNameText,
-                    item.taskIsDone ? AppStyles.taskNameTextDone : null,
-                  ]}
-                  numberOfLines={1}
-                >
-                  {item.taskDueDate}
-                </Text>
+                
               </View>
+                <TouchableOpacity
+                    style={AppStyles.taskDateButton}
+                    onPress={() => {
+                        toggleShowCalendar();
+                    }}
+                >
+                    {(item.taskDueDate && item.taskDueDate.length > 0) && (
+                    <Text
+                        style={AppStyles.taskDateText}
+                    >
+                        {item.taskDueDate}
+                    </Text>
+                    ) }
+                </TouchableOpacity>
+                
               <CheckBox
+                style={AppStyles.taskCheckBox}
                 value={Boolean(item.taskIsDone)}
                 onValueChange={(newValue) =>
                   handleTaskCompletion(item, newValue)
