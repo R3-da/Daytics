@@ -5,6 +5,7 @@ import MySnackBar from '../../Components/MySnackBar';
 import AppStyles from '../../Styles/AppStyles';
 import * as SQLite from 'expo-sqlite';
 import CheckBox from 'expo-checkbox';
+import { Calendar } from 'react-native-calendars';
 
 const db = SQLite.openDatabase('tasks.db');
 
@@ -16,6 +17,8 @@ const TasksScreen = ({ navigation }) => {
   const [snackBarMessage, setSnackBarMessage] = useState('');
   const [undoData, setUndoData] = useState('');
   const [user, setUser] = useState(null);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [selectedDate, setSelectedDate] = useState('');
 
   useEffect(() => {
     db.transaction(tx => {
@@ -104,19 +107,23 @@ const TasksScreen = ({ navigation }) => {
         userId: user ? user.uid : '',
         taskName: newTaskName,
         taskCreatedAt: timestamp,
+        taskDueDate: selectedDate,
         taskDescription: '',
         taskIsDone: 0
       };
       setNewTaskName('');
+      setSelectedDate('');
+      setShowCalendar(false);
       Keyboard.dismiss();
       db.transaction(tx => {
         tx.executeSql(
-          `INSERT INTO tasks (userId, taskName, taskCreatedAt, taskDescription, taskIsDone)
-          VALUES (?, ?, ?, ?, ?);`,
+          `INSERT INTO tasks (userId, taskName, taskCreatedAt, taskDueDate, taskDescription, taskIsDone)
+          VALUES (?, ?, ?, ?, ?, ?);`,
           [
             data.userId,
             data.taskName,
             data.taskCreatedAt,
+            data.taskDueDate,
             data.taskDescription,
             data.taskIsDone
           ],
@@ -132,14 +139,14 @@ const TasksScreen = ({ navigation }) => {
   };
 
   const handleTaskCompletion = (task, newValue) => {
-    db.transaction((tx) => {
+    db.transaction(tx => {
       tx.executeSql(
         `UPDATE tasks SET taskIsDone = ? WHERE taskId = ?;`,
         [newValue ? 1 : 0, task.taskId],
         () => {
           fetchTasks();
         },
-        (error) => {
+        error => {
           console.error(error);
         }
       );
@@ -150,7 +157,7 @@ const TasksScreen = ({ navigation }) => {
     <View style={{ flex: 1 }}>
       <View style={AppStyles.taskInputContainer}>
         <View style={AppStyles.taskInputTextContainer}>
-            <TextInput
+          <TextInput
             style={AppStyles.taskInputText}
             placeholder="Add A New Todo"
             placeholderTextColor="#aaaaaa"
@@ -158,24 +165,35 @@ const TasksScreen = ({ navigation }) => {
             value={newTaskName}
             underlineColorAndroid="transparent"
             autoCapitalize="none"
+          />
+          <TouchableOpacity
+            style={AppStyles.addDateButton}
+            onPress={() => {
+              setShowCalendar(true);
+            }}
+          >
+            <FontAwesome
+              name="calendar"
+              color="gray"
+              style={AppStyles.addDateIcon}
             />
-            <TouchableOpacity
-                style={AppStyles.addDateButton}
-                onPress={() => {
-                    deleteTask(item);
-                }}
-            >
-                <FontAwesome
-                    name="calendar"
-                    color="gray"
-                    style={AppStyles.addDateIcon}
-                />
-            </TouchableOpacity>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity style={AppStyles.addTaskButton} onPress={addTask}>
           <Text style={AppStyles.addTaskButtonText}>Add</Text>
         </TouchableOpacity>
       </View>
+      {showCalendar && (
+        <Calendar
+          onDayPress={(day) => {
+            setSelectedDate(day.dateString);
+            setShowCalendar(false);
+          }}
+          onCancel={() => {
+            setShowCalendar(false);
+          }}
+        />
+      )}
       <FlatList
         data={tasks}
         numColumns={1}
@@ -188,9 +206,7 @@ const TasksScreen = ({ navigation }) => {
           <View>
             <Pressable
               style={AppStyles.taskContainer}
-              onPress={() =>
-                navigation.navigate('TaskDetailScreen', { item })
-              }
+              onPress={() => navigation.navigate('TaskDetailScreen', { item })}
             >
               <TouchableOpacity
                 style={AppStyles.deleteTaskButton}
@@ -213,6 +229,15 @@ const TasksScreen = ({ navigation }) => {
                   numberOfLines={1}
                 >
                   {item.taskName}
+                </Text>
+                <Text
+                  style={[
+                    AppStyles.taskNameText,
+                    item.taskIsDone ? AppStyles.taskNameTextDone : null,
+                  ]}
+                  numberOfLines={1}
+                >
+                  {item.taskDueDate}
                 </Text>
               </View>
               <CheckBox
