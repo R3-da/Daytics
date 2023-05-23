@@ -266,7 +266,13 @@ const TasksScreen = ({ navigation }) => {
       />
       
         {showCalendar && 
-                <MyCalendar/>
+                <MyCalendar 
+                    selectedDueDate = {selectedDueDate}
+                    setSelectedDueDate = {setSelectedDueDate}
+                    setIsDueDateSelected = {setIsDueDateSelected}
+                    setShowCalendar = {setShowCalendar}
+                    showCalendar = {showCalendar}
+                />
         }
         
         <MySnackBar
