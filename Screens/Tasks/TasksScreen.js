@@ -158,26 +158,63 @@ const TasksScreen = ({ navigation }) => {
   const toggleShowCalendar = () => {
     setShowCalendar(!showCalendar);
   };
+  
+  const calendarTheme = {
+    // Customize the calendar theme properties here
+    todayTextColor: '#788eec',
+    selectedDayBackgroundColor: '#788eec',
+    monthTextColor: '#788eec',
+    //dayTextColor: 'red',
+    arrowColor: '#788eec',
+    // ...add more theme properties as needed
+  };
 
   return (
     <View style={{ flex: 1 }}>
       <View style={AppStyles.taskInputContainer}>
         <View style={AppStyles.taskInputTextContainer}>
-          <TextInput
-            style={AppStyles.taskInputText}
-            placeholder="Add A New Todo"
-            placeholderTextColor="#aaaaaa"
-            onChangeText={setNewTaskName}
-            value={newTaskName}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-          />
-          <TouchableOpacity
-            style={AppStyles.addDateButton}
-            onPress={() => {
-                toggleShowCalendar();
-            }}
-          >
+            <TextInput
+                style={AppStyles.taskInputText}
+                placeholder="Add A New Todo"
+                placeholderTextColor="#aaaaaa"
+                onChangeText={setNewTaskName}
+                value={newTaskName}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+            />
+            <TouchableOpacity
+                style={AppStyles.addDateButton}
+                onPress={() => {
+                    toggleShowCalendar();
+                }}
+            >
+            <Modal
+            visible={showCalendar}
+            animationType="fade"
+            transparent={true}
+            onRequestClose={() => setShowCalendar(false)}
+            >
+                <View style={AppStyles.modalContainer}>
+                    <View style={AppStyles.calendarContainer}>
+                        <Calendar
+                            hideDayNames = {true}
+                            markedDates={{
+                                [selectedDueDate]: { selected: true },
+                            }}
+                            current= {selectedDueDate}
+                            onDayPress={(day) => {
+                                setSelectedDueDate(day.dateString);
+                                setIsDueDateSelected(true);
+                                setShowCalendar(false);
+                            }}
+                            onCancel={() => {
+                                setShowCalendar(false);
+                            }}
+                            theme={calendarTheme}
+                        />
+                    </View>
+                </View>
+            </Modal>
             {isDueDateSelected ? (
               <Text style={AppStyles.selectedDueDateText}>{selectedDueDate}</Text>
             ) : (
@@ -193,31 +230,7 @@ const TasksScreen = ({ navigation }) => {
           <Text style={AppStyles.addTaskButtonText}>Add</Text>
         </TouchableOpacity>
       </View>
-        <Modal
-            visible={showCalendar}
-            animationType="fade"
-            transparent={true}
-            onRequestClose={() => setShowCalendar(false)}
-        >
-            <View style={AppStyles.modalContainer}>
-                <View style={AppStyles.calendarContainer}>
-                    <Calendar
-                        markedDates={{
-                            [selectedDueDate]: { selected: true },
-                        }}
-                        current= {selectedDueDate}
-                        onDayPress={(day) => {
-                            setSelectedDueDate(day.dateString);
-                            setIsDueDateSelected(true);
-                            setShowCalendar(false);
-                        }}
-                        onCancel={() => {
-                            setShowCalendar(false);
-                        }}
-                    />
-                </View>
-            </View>
-        </Modal>
+        
       <FlatList
         data={tasks}
         numColumns={1}
