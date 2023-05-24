@@ -52,6 +52,7 @@ export default StyleSheet.create({
         backgroundColor: 'white'
     },
     selectedDueDateText: {
+        fontWeight:'bold',
         fontSize:10,
         color: '#788eec',
     },
@@ -95,6 +96,7 @@ export default StyleSheet.create({
         justifyContent:'center'
     },
     taskDateText: {
+        fontWeight:'bold',
         fontSize:10,
         color: '#788eec',
     },
@@ -302,7 +304,7 @@ export default StyleSheet.create({
     },
     clearCalendarText: {
         fontWeight: 'bold',
-        color: 'red',
+        color: 'tomato',
         fontSize: 15,
     },
 });

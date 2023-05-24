@@ -5,9 +5,8 @@ import AppStyles from '../Styles/AppStyles';
 import { Calendar } from 'react-native-calendars';
 
 const MyCalendar = ({ 
-    selectedDueDate,
+    openCalendarDate,
     setSelectedDueDate,
-    setIsDueDateSelected,
     setShowCalendar,
     showCalendar}) => {
     const [containerOpacity] = useState(new Animated.Value(0)); // Initialize container opacity value
@@ -75,37 +74,35 @@ const MyCalendar = ({
         <Animated.View style={[AppStyles.popUpContainer, { opacity: containerOpacity }]}>
           <TouchableWithoutFeedback onPress={handleContentClick}>
             <Animated.View style={[AppStyles.popUpContent, { opacity: contentOpacity }]}>
-                <Calendar
-                            hideDayNames = {true}
-                            markedDates={{
-                                [selectedDueDate]: { selected: true },
-                            }}
-                            current= {selectedDueDate}
-                            onDayPress={(day) => {
-                                setSelectedDueDate(day.dateString);
-                                setIsDueDateSelected(true);
-                                setShowCalendar(false);
-                            }}
-                            onCancel={() => {
-                                setShowCalendar(false);
-                            }}
-                            theme={calendarTheme}
-                        />
+              <Calendar
+                hideDayNames = {true}
+                markedDates={{
+                    [openCalendarDate]: { selected: true },
+                }}
+                current= {openCalendarDate}
+                onDayPress={(day) => {
+                    setSelectedDueDate(day.dateString);
+                    setShowCalendar(false);
+                }}
+                onCancel={() => {
+                    setShowCalendar(false);
+                }}
+                theme={calendarTheme}
+              />
 
-                <TouchableOpacity
-                  style={AppStyles.clearCalendarButton}
-                  onPress={() => {
-                    handleClose();
-                    setSelectedDueDate('')
-                    setIsDueDateSelected(false);
-                  }}
-                >
-                  <Text style={AppStyles.clearCalendarText}>Clear Date</Text>
-                </TouchableOpacity>
-                
-                <TouchableOpacity style={AppStyles.popUpCloseButton} onPress={handleClose}>
-                    <Ionicons name="close-outline" size={25} color="gray" />
-                </TouchableOpacity>
+              <TouchableOpacity
+                style={AppStyles.clearCalendarButton}
+                onPress={() => {
+                  handleClose();
+                  setSelectedDueDate('');
+                }}
+              >
+                <Text style={AppStyles.clearCalendarText}>Clear Date</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity style={AppStyles.popUpCloseButton} onPress={handleClose}>
+                <Ionicons name="close-outline" size={25} color="gray" />
+              </TouchableOpacity>
             </Animated.View>
           </TouchableWithoutFeedback>
         </Animated.View>
