@@ -228,7 +228,7 @@ export default StyleSheet.create({
     },
     popUpCloseButton: {
         backgroundColor: 'transparent',
-        paddingVertical: 3,
+        paddingVertical: 6,
         paddingHorizontal: 6,
         borderRadius: 5,
         position: 'absolute',
@@ -296,10 +296,13 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    modalContainer: {
+    clearCalendarButton: {
+        marginTop: 10,
         alignItems: 'center',
     },
-    calendarContainer: {
-        
+    clearCalendarText: {
+        fontWeight: 'bold',
+        color: 'red',
+        fontSize: 15,
     },
 });

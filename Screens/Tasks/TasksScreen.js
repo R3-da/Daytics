@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import MySnackBar from '../../Components/MySnackBar';
 import AppStyles from '../../Styles/AppStyles';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import CheckBox from 'expo-checkbox';
 import MyCalendar from '../../Components/MyCalendar';
@@ -168,11 +169,12 @@ const TasksScreen = ({ navigation }) => {
             {isDueDateSelected ? (
               <Text style={AppStyles.selectedDueDateText}>{selectedDueDate}</Text>
             ) : (
-              <FontAwesome
-                name="calendar"
-                color="gray"
-                style={AppStyles.addDateIcon}
-              />
+                <Ionicons 
+                    name="calendar-outline" 
+                    color='gray'
+                    style={AppStyles.addDateIcon}
+                />
+             
             )}
           </TouchableOpacity>
         </View>

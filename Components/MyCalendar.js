@@ -91,6 +91,18 @@ const MyCalendar = ({
                             }}
                             theme={calendarTheme}
                         />
+
+                <TouchableOpacity
+                  style={AppStyles.clearCalendarButton}
+                  onPress={() => {
+                    handleClose();
+                    setSelectedDueDate('')
+                    setIsDueDateSelected(false);
+                  }}
+                >
+                  <Text style={AppStyles.clearCalendarText}>Clear Date</Text>
+                </TouchableOpacity>
+                
                 <TouchableOpacity style={AppStyles.popUpCloseButton} onPress={handleClose}>
                     <Ionicons name="close-outline" size={25} color="gray" />
                 </TouchableOpacity>
