@@ -5,6 +5,11 @@ import TodoList from './Screens/Tasks/TasksApp';
 import TimeTracker from './Screens/TimeTracker/TimerApp';
 import Settings from './Screens/Settings/SettingsApp';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
 
 const Tab  = createBottomTabNavigator();
 
