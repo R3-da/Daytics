@@ -1,30 +1,52 @@
-import { View, Text, TextInput, Dimensions, KeyboardAvoidingView } from 'react-native';
-import React, {useState} from 'react';
-import { firebase } from '../../firebase';
+import { View, TextInput, Dimensions, KeyboardAvoidingView } from 'react-native';
+import React, {useState, useEffect} from 'react';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import AppStyles from '../../Styles/AppStyles';
-
+import { db } from '../../database/Dao';
+import { useIsFocused } from '@react-navigation/native';
 
 const TaskDetailScreen = ({route}) => {
-    const tasks_Db_Ref = firebase.firestore().collection('tasks_db');
-    const [taskName, setTaskName] = useState(route.params.item.taskName);
-    const [taskDescription, setTaskDescription] = useState(route.params.item.taskDescription)
+    const { item, setIsDataSynced } = route.params;
+    const [taskName, setTaskName] = useState(item.taskName);
+    const [taskDescription, setTaskDescription] = useState(item.taskDescription)
+    const isFocused = useIsFocused();
+    
 
     // Get the dimensions of the screen
     const windowHeight = Dimensions.get('window').height;
 
-    const updateTask = () => {
-        if (taskName &&  taskName.length > 0) {
-            tasks_Db_Ref
-            .doc(route.params.item.id)
-            .update({
-                taskName: taskName,
-                taskDescription: taskDescription,
-            }).catch((error) => {
-                alert(error.message)
-            })
+    const handleTaskUpdate = async () => {
+        try {
+          await new Promise((resolve, reject) => {
+            db.transaction((tx) => {
+              tx.executeSql(
+                `UPDATE tasks SET taskName = ?, taskDescription = ? WHERE taskId = ?;`,
+                [taskName, taskDescription, item.taskId],
+                (_, result) => {
+                  resolve(result);
+                },
+                (_, error) => {
+                  reject(error);
+                }
+              );
+            });
+          });
+
+          
+        } catch (error) {
+          console.error(error);
         }
-    }
+      };
+      
+
+      useEffect(() => {
+        if (!isFocused) {
+          // Perform the action or update the screen
+          handleTaskUpdate().then(() => {
+            setIsDataSynced(false);
+          });
+        }
+      }, [isFocused]);
 
     return (
         <KeyboardAvoidingView contentContainerStyle={AppStyles.container} keyboardShouldPersistTaps="handled" behavior="padding">
@@ -33,7 +55,7 @@ const TaskDetailScreen = ({route}) => {
                     <TextInput
                         style={AppStyles.taskNameInputDesc}
                         onChangeText= {setTaskName}
-                        onBlur={updateTask()}
+                        onBlur={handleTaskUpdate}
                         value={taskName}
                         textAlignVertical="bottom"
                     />
@@ -44,7 +66,7 @@ const TaskDetailScreen = ({route}) => {
                         placeholder='Description'
                         placeholderTextColor='#aaaaaa'
                         onChangeText= {setTaskDescription}
-                        onBlur={updateTask()}
+                        onBlur={handleTaskUpdate}
                         value={taskDescription}
                         maxHeight={windowHeight * 0.75}
                     />
