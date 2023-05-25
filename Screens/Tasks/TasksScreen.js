@@ -21,7 +21,6 @@ const TasksScreen = ({ navigation }) => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null); // Selected task for date update
   const [selectedDueDate, setSelectedDueDate] = useState(''); // Due date for new tasks
-  const isFocused = useIsFocused();
   const [isDataSynced, setIsDataSynced] = useState(false); // Track data synchronization status
   
     const fetchTasks = async () => {
@@ -161,7 +160,7 @@ const TasksScreen = ({ navigation }) => {
         db.transaction(tx => {
         tx.executeSql(
             `UPDATE tasks SET taskDueDate = ? WHERE taskId = ?;`,
-            [newValue ? 1 : 0, task.taskId],
+            [newValue, task.taskId],
             () => {
             fetchTasks();
             },
@@ -217,9 +216,7 @@ const TasksScreen = ({ navigation }) => {
                 toggleShowCalendar(null);
                 }}
             >
-                {selectedTask ? (
-                    <Text style={AppStyles.selectedDueDateText}>{selectedTask.taskDueDate}</Text>
-                    ) : (
+                {
                     (selectedDueDate && selectedDueDate.length > 0) ? 
                     <Text style={AppStyles.selectedDueDateText}>{selectedDueDate }</Text>
                     : <Ionicons 
@@ -227,15 +224,12 @@ const TasksScreen = ({ navigation }) => {
                     color='gray'
                     style={AppStyles.addDateIcon}
                     /> 
-                    )}
+                }
 
             </TouchableOpacity>
             </View>
 
             <TouchableOpacity style={AppStyles.addTaskButton} onPress={addTask}>
-            <Text style={AppStyles.addTaskButtonText}>Add</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={AppStyles.addTaskButton} onPress={fetchTasks}>
             <Text style={AppStyles.addTaskButtonText}>Add</Text>
             </TouchableOpacity>
         </View>
@@ -289,14 +283,20 @@ const TasksScreen = ({ navigation }) => {
                 </TouchableOpacity>
                     ) : null
                     }
-                
+                <Pressable 
+                    style={{ paddingVertical: 15, paddingHorizontal: 8 }} 
+                    onPress={() => {
+                        handleTaskCompletion(item, Boolean(!item.taskIsDone));
+                    }}>
+                    <CheckBox
+                        style={AppStyles.taskCheckBox}
+                        value={Boolean(item.taskIsDone)}
+                        onValueChange={newValue => handleTaskCompletion(item, newValue)}
+                        color={Boolean(item.taskIsDone) ? '#4CAF50' : undefined}
+                    />
+                </Pressable>
 
-                <CheckBox
-                    style={AppStyles.taskCheckBox}
-                    value={Boolean(item.taskIsDone)}
-                    onValueChange={newValue => handleTaskCompletion(item, newValue)}
-                    color={Boolean(item.taskIsDone) ? '#4CAF50' : undefined}
-                />
+                
                 </Pressable>
             </View>
             )}

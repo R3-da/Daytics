@@ -3,8 +3,8 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
     taskContainer:{
         backgroundColor:'#e5e5e5',
-        paddingVertical: 6,
-        paddingHorizontal: 10,
+        paddingVertical: 0,
+        paddingLeft: 5,
         borderRadius : 15,
         margin: 5,
         marginHorizontal : 15,
@@ -110,19 +110,30 @@ export default StyleSheet.create({
         flexGrow: 1,
     },
     taskNameContainerDesc: {
-        marginTop:10,
+        marginTop:20,
         marginLeft:15,
-        marginRight:15
+        marginRight:15,
+        flexDirection: 'row',
+        alignItems:'center',
+        paddingRight: 10,
     },
     taskNameInputDesc: {
-        paddingLeft:10,
-        paddingTop:10,
+        flex :1,
         fontSize:20,
+        fontWeight: 'bold',
         color:'#000000',
         backgroundColor:'transparent'
     },
+    takNameIconsDesc: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    takNameDateDesc: {
+        fontWeight:'bold',
+        fontSize:15,
+        color: '#788eec',
+    },
     taskDecriptionContainer: {
-        marginTop:15,
         marginLeft:15,
         marginRight:15
     },
