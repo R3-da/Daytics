@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Daytics",
-    "slug": "Daytics",
+    "slug": "daytics",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,15 +22,16 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.r3da.todoList"
+      "package": "com.r3da.Daytics"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "54d20de7-7803-4f61-9c1c-8b6093d98b46"
+        "projectId": "0b1baacb-b0cb-45fd-bf49-07599ec4f7c0"
       }
-    }
+    },
+    "owner": "r3-da"
   }
 }

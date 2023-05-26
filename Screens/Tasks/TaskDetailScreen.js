@@ -1,6 +1,5 @@
 import { View, TextInput, Dimensions, TouchableOpacity, KeyboardAvoidingView, Pressable, Text } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import AppStyles from '../../Styles/AppStyles';
 import { db } from '../../database/Dao';
 import { useIsFocused } from '@react-navigation/native';
@@ -123,7 +122,7 @@ const TaskDetailScreen = ({route}) => {
                     </TouchableOpacity>
                 </View>
                 <View style={AppStyles.taskDecriptionContainer}>
-                    <AutoGrowingTextInput 
+                    <TextInput 
                         style={AppStyles.taskDescriptionInput} 
                         placeholder='Description'
                         placeholderTextColor='#aaaaaa'
