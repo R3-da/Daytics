@@ -1,6 +1,5 @@
 import { View, Text, FlatList, TextInput, TouchableOpacity, Keyboard, Pressable } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { useIsFocused } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 import MySnackBar from '../../Components/MySnackBar';
 import AppStyles from '../../Styles/AppStyles';
@@ -244,14 +243,8 @@ const TasksScreen = ({ navigation }) => {
             }}
             renderItem={({ item }) => (
             <View>
-                <Pressable
+                <View
                     style={AppStyles.taskContainer}
-                    onPress={() => {
-                        navigation.navigate('TaskDetailScreen', {
-                            item,
-                            setIsDataSynced,
-                        });// Set the parameter after navigating
-                    }}
                 >
                 <TouchableOpacity
                     style={AppStyles.deleteTaskButton}
@@ -297,7 +290,7 @@ const TasksScreen = ({ navigation }) => {
                 </Pressable>
 
                 
-                </Pressable>
+                </View>
             </View>
             )}
             keyExtractor={item => item.taskId.toString()}

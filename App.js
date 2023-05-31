@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Account from './Screens/Account/AccountApp';
-import TodoList from './Screens/Tasks/TasksApp';
-import TimeTracker from './Screens/TimeTracker/TimerApp';
+import Tasks from './Screens/Tasks/TasksApp';
+import Timer from './Screens/TimeTracker/TimerApp';
 import Settings from './Screens/Settings/SettingsApp';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { LogBox } from 'react-native';
@@ -46,11 +46,11 @@ export default function App(){
         />
         <Tab.Screen
           name='Tasks'
-          component={TodoList}
+          component={Tasks}
         />
         <Tab.Screen
           name='Timer'
-          component={TimeTracker}
+          component={Timer}
         />
         <Tab.Screen
           name='Settings'
